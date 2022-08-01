@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "cape_cacher",
+  "version": "${version}",
+  "name": "Cape_cacher",
+  "description": "Caches and lets you know of all capes in your loaded chunks!",
+  "authors": [
+    "ella"
+  ],
+  "contact": {
+    "website": "https://capes.me/"
+  },
+  "license": "MIT",
+  "icon": "assets/cape_cacher/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.github.voxxin.cape_cacher.client.CapeCacher"
+    ],
+    "modmenu": [
+      "com.github.voxxin.cape_cacher.integration.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "cape_cacher.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.13.3",
+    "fabric": "*"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.voxxin.cape_cacher.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "PlayerSkinProviderMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

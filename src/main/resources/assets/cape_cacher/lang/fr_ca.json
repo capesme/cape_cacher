@@ -1,0 +1,5 @@
+{
+  "text.autoconfig.cape_cacher.option.notifyCapeCached": "M'avertir lorsqu'un compte est trouvé",
+  "text.autoconfig.cape_cacher.option.notifyWhenCacheSelf": "M'avertir lorsque mon compte est trouvé",
+  "text.autoconfig.cape_cacher.option.notifySound": "Faire du bruit une fois qu'un compte est trouvé"
+}
