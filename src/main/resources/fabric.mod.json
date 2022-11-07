@@ -18,7 +18,7 @@
       "com.github.voxxin.cape_cacher.client.CapeCacher"
     ],
     "modmenu": [
-      "com.github.voxxin.cape_cacher.integration.ModMenuIntegration"
+      "com.github.voxxin.cape_cacher.config.ModMenu"
     ]
   },
   "mixins": [

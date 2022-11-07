@@ -1,7 +1,4 @@
 package com.github.voxxin.cape_cacher.client;
-
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -10,12 +7,7 @@ import net.fabricmc.api.Environment;
 public class CapeCacher implements ClientModInitializer {
     public static final String MODID = "cape_cacher";
 
-    public static ModConfig config;
-
     @Override
     public void onInitializeClient() {
-        AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
-        config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
-
     }
 }
