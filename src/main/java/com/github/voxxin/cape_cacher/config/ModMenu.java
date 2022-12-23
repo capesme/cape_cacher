@@ -1,23 +1,16 @@
 package com.github.voxxin.cape_cacher.config;
 
-import com.github.voxxin.cape_cacher.client.CapeCacher;
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+import com.terraformersmc.modmenu.api.ModMenuApi;
 import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.annotation.Config;
-import me.shedaniel.autoconfig.annotation.ConfigEntry;
-import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 
-@Config(name = CapeCacher.MODID)
-public class ModMenu implements ConfigData {
-    @ConfigEntry.Gui.Excluded
+public class ModMenu implements ModMenuApi {
+    @Override
+    public ConfigScreenFactory<?> getModConfigScreenFactory() {
+        return screen -> AutoConfig.getConfigScreen(ModConfig.class, screen).get();
+    }
 
-    public static ModMenu INSTANCE;
-
-    public static void init() {
-
-        AutoConfig.register(ModMenu.class, JanksonConfigSerializer::new);
-
-        INSTANCE = AutoConfig.getConfigHolder(ModMenu.class).getConfig();
-
+    public static class capeSettings {
+        public boolean getNotified = true;
     }
 }
