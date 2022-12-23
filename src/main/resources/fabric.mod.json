@@ -18,14 +18,14 @@
       "com.github.voxxin.cape_cacher.client.CapeCacher"
     ],
     "modmenu": [
-      "com.github.voxxin.cape_cacher.integration.ModMenuIntegration"
+      "com.github.voxxin.cape_cacher.config.ModMenu"
     ]
   },
   "mixins": [
     "cape_cacher.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.13.3",
+    "fabricloader": ">=0.14.10",
     "fabric": "*"
   }
 }
