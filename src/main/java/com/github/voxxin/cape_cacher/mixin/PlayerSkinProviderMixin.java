@@ -69,7 +69,7 @@ public abstract class PlayerSkinProviderMixin {
         }
 
         assert MinecraftClient.getInstance().player != null;
-        if (playerUUID.equals(MinecraftClient.getInstance().player.getUuid().toString()) && !ModConfig.notifyWhenCacheSelf) return;
+        if (playerUUID.equals(MinecraftClient.getInstance().player.getUuid().toString()) && !ModConfig.getNotifyWhenCacheSelf()) return;
 
         String foundCape = capeTypeToColor.get(capeInfo[2]) + capeInfo[0];
         SendUserMessage.sendMessage(playerName, foundCape);

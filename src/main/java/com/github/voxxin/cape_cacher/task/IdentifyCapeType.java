@@ -1,5 +1,6 @@
 package com.github.voxxin.cape_cacher.task;
 
+import com.github.voxxin.cape_cacher.client.CapeCacher;
 import com.github.voxxin.cape_cacher.config.ModConfig;
 import com.github.voxxin.cape_cacher.config.ModMenu;
 
@@ -28,12 +29,12 @@ F
         I only added them because I noticed they were in the texture DB.
          */
 
-        if(!ModConfig.notifyMessageAll) return capeInfo;
+        if(!ModConfig.getNotifyMessageAll()) return capeInfo;
 
 
         switch (CapeURL) {
             case "f9a76537647989f9a0b6d001e320dac591c359e9e61a31f4ce11c88f207f0ad4" -> {
-                if(!ModConfig.vanillaOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.vanillaOptions) return capeInfo;
 
                 capeInfo[0] = "Vanilla Cape";
                 capeInfo[1] = "vanilla";
@@ -41,7 +42,7 @@ F
                 return capeInfo;
             }
             case "2340c0e03dd24a11b15a8b33c2a7e9e32abb2051b2481d0ba7defd635ca7a933" -> {
-                if(!ModConfig.migratorOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.migratorOptions) return capeInfo;
 
                 capeInfo[0] = "Migrator";
                 capeInfo[1] = "mig";
@@ -49,7 +50,7 @@ F
                 return capeInfo;
             }
             case "953cac8b779fe41383e675ee2b86071a71658f2180f56fbce8aa315ea70e2ed6" -> {
-                if(!ModConfig.mineCon2011Options.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.mineCon2011Options) return capeInfo;
 
                 capeInfo[0] = "MineCon 2011";
                 capeInfo[1] = "m11";
@@ -57,7 +58,7 @@ F
                 return capeInfo;
             }
             case "a2e8d97ec79100e90a75d369d1b3ba81273c4f82bc1b737e934eed4a854be1b6" -> {
-                if(!ModConfig.mineCon2012Options.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.mineCon2012Options) return capeInfo;
 
                 capeInfo[0] = "MineCon 2012";
                 capeInfo[1] = "m12";
@@ -65,7 +66,7 @@ F
                 return capeInfo;
             }
             case "153b1a0dfcbae953cdeb6f2c2bf6bf79943239b1372780da44bcbb29273131da" -> {
-                if(!ModConfig.mineCon2013Options.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.mineCon2013Options) return capeInfo;
 
                 capeInfo[0] = "MineCon 2013";
                 capeInfo[1] = "m13";
@@ -73,7 +74,7 @@ F
                 return capeInfo;
             }
             case "b0cc08840700447322d953a02b965f1d65a13a603bf64b17c803c21446fe1635" -> {
-                if(!ModConfig.mineCon2015Options.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.mineCon2015Options) return capeInfo;
 
                 capeInfo[0] = "MineCon 2015";
                 capeInfo[1] = "m15";
@@ -81,7 +82,7 @@ F
                 return capeInfo;
             }
             case "e7dfea16dc83c97df01a12fabbd1216359c0cd0ea42f9999b6e97c584963e980" -> {
-                if(!ModConfig.mineCon2016Options.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.mineCon2016Options) return capeInfo;
 
                 capeInfo[0] = "MineCon 2016";
                 capeInfo[1] = "m16";
@@ -89,7 +90,7 @@ F
                 return capeInfo;
             }
             case "3efadf6510961830f9fcc077f19b4daf286d502b5f5aafbd807c7bbffcaca245" -> {
-                if(!ModConfig.cobaltOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.cobaltOptions) return capeInfo;
 
                 capeInfo[0] = "Cobalt";
                 capeInfo[1] = "cc";
@@ -97,7 +98,7 @@ F
                 return capeInfo;
             }
             case "ca35c56efe71ed290385f4ab5346a1826b546a54d519e6a3ff01efa01acce81" -> {
-                if(!ModConfig.scrollsChampOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.scrollsChampOptions) return capeInfo;
 
                 capeInfo[0] = "Scrolls Champ";
                 capeInfo[1] = "sc";
@@ -105,7 +106,7 @@ F
                 return capeInfo;
             }
             case "ae677f7d98ac70a533713518416df4452fe5700365c09cf45d0d156ea9396551" -> {
-                if(!ModConfig.moderatorOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.moderatorOptions) return capeInfo;
 
                 capeInfo[0] = "Moderator";
                 capeInfo[1] = "mod";
@@ -113,7 +114,7 @@ F
                 return capeInfo;
             }
             case "1bf91499701404e21bd46b0191d63239a4ef76ebde88d27e4d430ac211df681e" -> {
-                if(!ModConfig.translatorOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.translatorOptions) return capeInfo;
 
                 capeInfo[0] = "Translator";
                 capeInfo[1] = "trans";
@@ -121,7 +122,7 @@ F
                 return capeInfo;
             }
             case "17912790ff164b93196f08ba71d0e62129304776d0f347334f8a6eae509f8a56" -> {
-                if(!ModConfig.mapMakerOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.mapMakerOptions) return capeInfo;
 
                 capeInfo[0] = "Map Maker";
                 capeInfo[1] = "map";
@@ -129,7 +130,7 @@ F
                 return capeInfo;
             }
             case "2262fb1d24912209490586ecae98aca8500df3eff91f2a07da37ee524e7e3cb6" -> {
-                if(!ModConfig.translatorCNOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.translatorCNOptions) return capeInfo;
 
                 capeInfo[0] = "Translator-Chinese";
                 capeInfo[1] = "transc";
@@ -137,7 +138,7 @@ F
                 return capeInfo;
             }
             case "8f120319222a9f4a104e2f5cb97b2cda93199a2ee9e1585cb8d09d6f687cb761" -> {
-                if(!ModConfig.mojangOldOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.mojangOldOptions) return capeInfo;
 
                 capeInfo[0] = "Mojang-Old";
                 capeInfo[1] = "mjold";
@@ -145,7 +146,7 @@ F
                 return capeInfo;
             }
             case "5786fe99be377dfb6858859f926c4dbc995751e91cee373468c5fbf4865e7151" -> {
-                if(!ModConfig.mojangOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.mojangOptions) return capeInfo;
 
                 capeInfo[0] = "Mojang";
                 capeInfo[1] = "mj";
@@ -153,7 +154,7 @@ F
                 return capeInfo;
             }
             case "9e507afc56359978a3eb3e32367042b853cddd0995d17d0da995662913fb00f7" -> {
-                if(!ModConfig.mojangStudiosOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.mojangStudiosOptions) return capeInfo;
 
                 capeInfo[0] = "Mojang Studios";
                 capeInfo[1] = "mjs";
@@ -161,7 +162,7 @@ F
                 return capeInfo;
             }
             case "5048ea61566353397247d2b7d946034de926b997d5e66c86483dfb1e031aee95" -> {
-                if(!ModConfig.turtleOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.turtleOptions) return capeInfo;
 
                 capeInfo[0] = "Turtle";
                 capeInfo[1] = "t";
@@ -169,7 +170,7 @@ F
                 return capeInfo;
             }
             case "d8f8d13a1adf9636a16c31d47f3ecc9bb8d8533108aa5ad2a01b13b1a0c55eac" -> {
-                if(!ModConfig.prismarineOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.prismarineOptions) return capeInfo;
 
                 capeInfo[0] = "Prismarine";
                 capeInfo[1] = "p";
@@ -177,7 +178,7 @@ F
                 return capeInfo;
             }
             case "bcfbe84c6542a4a5c213c1cacf8979b5e913dcb4ad783a8b80e3c4a7d5c8bdac" -> {
-                if(!ModConfig.dannyBStyleOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.dannyBStyleOptions) return capeInfo;
 
                 capeInfo[0] = "DannyB Style";
                 capeInfo[1] = "db";
@@ -185,7 +186,7 @@ F
                 return capeInfo;
             }
             case "23ec737f18bfe4b547c95935fc297dd767bb84ee55bfd855144d279ac9bfd9fe" -> {
-                if(!ModConfig.julianClarkOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.julianClarkOptions) return capeInfo;
 
                 capeInfo[0] = "Julian Clark";
                 capeInfo[1] = "jc";
@@ -193,7 +194,7 @@ F
                 return capeInfo;
             }
             case "ca29f5dd9e94fb1748203b92e36b66fda80750c87ebc18d6eafdb0e28cc1d05f" -> {
-                if(!ModConfig.cheapsh0tOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.cheapsh0tOptions) return capeInfo;
 
                 capeInfo[0] = "cheapsh0t";
                 capeInfo[1] = "cheap";
@@ -201,7 +202,7 @@ F
                 return capeInfo;
             }
             case "2e002d5e1758e79ba51d08d92a0f3a95119f2f435ae7704916507b6c565a7da8" -> {
-                if(!ModConfig.mrMessiahOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.mrMessiahOptions) return capeInfo;
 
                 capeInfo[0] = "MrMessiah";
                 capeInfo[1] = "mm";
@@ -209,7 +210,7 @@ F
                 return capeInfo;
             }
             case "2056f2eebd759cce93460907186ef44e9192954ae12b227d817eb4b55627a7fc" -> {
-                if(!ModConfig.birthdayOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.birthdayOptions) return capeInfo;
 
                 capeInfo[0] = "birthday";
                 capeInfo[1] = "b";
@@ -217,7 +218,7 @@ F
                 return capeInfo;
             }
             case "6a7cf0eb5cfe7e7c508b364e32916dfd28d164e7bf6d92c6ea7811b82451e760" -> {
-                if(!ModConfig.valentineOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.valentineOptions) return capeInfo;
 
                 capeInfo[0] = "Valentine";
                 capeInfo[1] = "val";
@@ -225,7 +226,7 @@ F
                 return capeInfo;
             }
             case "70efffaf86fe5bc089608d3cb297d3e276b9eb7a8f9f2fe6659c23a2d8b18edf" -> {
-                if(!ModConfig.millionthSaleOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.millionthSaleOptions) return capeInfo;
 
                 capeInfo[0] = "Millionth Sale";
                 capeInfo[1] = "ms";
@@ -251,7 +252,7 @@ F
                 return capeInfo;
             }
             default -> {
-                if(!ModConfig.unknownCapeOptions.getNotified) return capeInfo;
+                if(!CapeCacher.config.capes.unknownCapeOptions) return capeInfo;
 
                 capeInfo[0] = "[?] UNKNOWN CAPE";
                 capeInfo[1] = "unknown";

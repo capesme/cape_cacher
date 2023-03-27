@@ -16,6 +16,6 @@ public class CapeCacher implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
-        config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
+        config  = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
     }
 }

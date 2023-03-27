@@ -1,90 +1,90 @@
 {
   "text.autoconfig.cape_cacher.title": "Cape Cacher",
 
-  "text.autoconfig.cape_cacher.category.default": "Général",
+  "text.autoconfig.cape_cacher.option.aDefault": "Général",
 
-  "text.autoconfig.cape_cacher.option.notifyMessageAll": "avertitr lorsqu'un compte est trouvé",
-  "text.autoconfig.cape_cacher.option.notifyWhenCacheSelf": "Me avertitr lorsque mon compte est trouvé",
-  "text.autoconfig.cape_cacher.option.notifySoundAll": "Faire du bruit lorsqu'un compte est trouvé",
-  "text.autoconfig.cape_cacher.option.notifySoundStrength": "Définit la puissance du son de notification",
+  "text.autoconfig.cape_cacher.option.aDefault.notifyMessageAll": "avertitr lorsqu'un compte est trouvé",
+  "text.autoconfig.cape_cacher.option.aDefault.notifyWhenCacheSelf": "Me avertitr lorsque mon compte est trouvé",
+  "text.autoconfig.cape_cacher.option.aDefault.notifySoundAll": "Faire du bruit lorsqu'un compte est trouvé",
+  "text.autoconfig.cape_cacher.option.aDefault.notifySoundStrength": "Définit la puissance du son de notification",
 
-  "text.autoconfig.cape_cacher.category.Capes": "Capes",
+  "text.autoconfig.cape_cacher.option.capes": "Capes",
 
-  "text.autoconfig.cape_cacher.option.migratorOptions": "Options de cape migratrice",
-  "text.autoconfig.cape_cacher.option.migratorOptions.getNotified": "Vous avertit lorsqu'une cape migratrice est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.migratorOptions": "Options de cape migratrice",
+  "text.autoconfig.cape_cacher.option.capes.migratorOptions.getNotified": "Vous avertit lorsqu'une cape migratrice est trouvée",
 
-  "text.autoconfig.cape_cacher.option.vanillaOptions": "Options de cape vanilla",
-  "text.autoconfig.cape_cacher.option.vanillaOptions.getNotified": "Vous avertit lorsqu'une cape vanilla est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.vanillaOptions": "Options de cape vanilla",
+  "text.autoconfig.cape_cacher.option.capes.vanillaOptions.getNotified": "Vous avertit lorsqu'une cape vanilla est trouvée",
 
-  "text.autoconfig.cape_cacher.option.mineCon2011Options": "Options de cape MineCon 2011",
-  "text.autoconfig.cape_cacher.option.mineCon2011Options.getNotified": "Vous avertit lorsqu'une cape MineCon 2011 est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.mineCon2011Options": "Options de cape MineCon 2011",
+  "text.autoconfig.cape_cacher.option.capes.mineCon2011Options.getNotified": "Vous avertit lorsqu'une cape MineCon 2011 est trouvée",
 
-  "text.autoconfig.cape_cacher.option.mineCon2012Options": "Options de cape MineCon 2012",
-  "text.autoconfig.cape_cacher.option.mineCon2012Options.getNotified": "Vous avertit lorsqu'une cape MineCon 2012 est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.mineCon2012Options": "Options de cape MineCon 2012",
+  "text.autoconfig.cape_cacher.option.capes.mineCon2012Options.getNotified": "Vous avertit lorsqu'une cape MineCon 2012 est trouvée",
 
-  "text.autoconfig.cape_cacher.option.mineCon2013Options": "Options de cape MineCon 2013",
-  "text.autoconfig.cape_cacher.option.mineCon2013Options.getNotified": "Vous avertit lorsqu'une cape MineCon 2013 est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.mineCon2013Options": "Options de cape MineCon 2013",
+  "text.autoconfig.cape_cacher.option.capes.mineCon2013Options.getNotified": "Vous avertit lorsqu'une cape MineCon 2013 est trouvée",
 
-  "text.autoconfig.cape_cacher.option.mineCon2015Options": "Options de cape MineCon 2015",
-  "text.autoconfig.cape_cacher.option.mineCon2015Options.getNotified": "Vous avertit lorsqu'une cape MineCon 2015 est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.mineCon2015Options": "Options de cape MineCon 2015",
+  "text.autoconfig.cape_cacher.option.capes.mineCon2015Options.getNotified": "Vous avertit lorsqu'une cape MineCon 2015 est trouvée",
 
-  "text.autoconfig.cape_cacher.option.mineCon2016Options": "Options de cape MineCon 2016",
-  "text.autoconfig.cape_cacher.option.mineCon2016Options.getNotified": "Vous avertit lorsqu'une cape MineCon 2016 est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.mineCon2016Options": "Options de cape MineCon 2016",
+  "text.autoconfig.cape_cacher.option.capes.mineCon2016Options.getNotified": "Vous avertit lorsqu'une cape MineCon 2016 est trouvée",
 
-  "text.autoconfig.cape_cacher.option.cobaltOptions": "Options de cape Cobalt",
-  "text.autoconfig.cape_cacher.option.cobaltOptions.getNotified": "Vous avertit lorsqu'une cape Cobalt est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.cobaltOptions": "Options de cape Cobalt",
+  "text.autoconfig.cape_cacher.option.capes.cobaltOptions.getNotified": "Vous avertit lorsqu'une cape Cobalt est trouvée",
 
-  "text.autoconfig.cape_cacher.option.scrollsChampOptions": "Options de cape de champion de Scrolls",
-  "text.autoconfig.cape_cacher.option.scrollsChampOptions.getNotified": "Vous avertit lorsqu'une cape de champion de Scrolls est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.scrollsChampOptions": "Options de cape de champion de Scrolls",
+  "text.autoconfig.cape_cacher.option.capes.scrollsChampOptions.getNotified": "Vous avertit lorsqu'une cape de champion de Scrolls est trouvée",
 
-  "text.autoconfig.cape_cacher.option.moderatorOptions": "Options de cape de modérateur",
-  "text.autoconfig.cape_cacher.option.moderatorOptions.getNotified": "Vous avertit lorsqu'une cape de modérateur est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.moderatorOptions": "Options de cape de modérateur",
+  "text.autoconfig.cape_cacher.option.capes.moderatorOptions.getNotified": "Vous avertit lorsqu'une cape de modérateur est trouvée",
 
-  "text.autoconfig.cape_cacher.option.translatorOptions": "Options de cape de traducteur",
-  "text.autoconfig.cape_cacher.option.translatorOptions.getNotified": "Vous avertit lorsqu'une cape de traducteur est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.translatorOptions": "Options de cape de traducteur",
+  "text.autoconfig.cape_cacher.option.capes.translatorOptions.getNotified": "Vous avertit lorsqu'une cape de traducteur est trouvée",
 
-  "text.autoconfig.cape_cacher.option.mapMakerOptions": "Options de cape de créateur de cartes",
-  "text.autoconfig.cape_cacher.option.mapMakerOptions.getNotified": "Vous avertit lorsqu'une cape de créateur de cartes est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.mapMakerOptions": "Options de cape de créateur de cartes",
+  "text.autoconfig.cape_cacher.option.capes.mapMakerOptions.getNotified": "Vous avertit lorsqu'une cape de créateur de cartes est trouvée",
 
-  "text.autoconfig.cape_cacher.option.translatorCNOptions": "Options de cape de traducteur chinois",
-  "text.autoconfig.cape_cacher.option.translatorCNOptions.getNotified": "Vous avertit lorsqu'une cape de traducteur chinois est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.translatorCNOptions": "Options de cape de traducteur chinois",
+  "text.autoconfig.cape_cacher.option.capes.translatorCNOptions.getNotified": "Vous avertit lorsqu'une cape de traducteur chinois est trouvée",
 
-  "text.autoconfig.cape_cacher.option.mojangOldOptions": "Options de cape Mojang (ancien)",
-  "text.autoconfig.cape_cacher.option.mojangOldOptions.getNotified": "Vous avertit lorsqu'une cape Mojang (ancien) est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.mojangOldOptions": "Options de cape Mojang (ancien)",
+  "text.autoconfig.cape_cacher.option.capes.mojangOldOptions.getNotified": "Vous avertit lorsqu'une cape Mojang (ancien) est trouvée",
 
-  "text.autoconfig.cape_cacher.option.mojangOptions": "Options de cape Mojang",
-  "text.autoconfig.cape_cacher.option.mojangOptions.getNotified": "Vous avertit lorsqu'une cape Mojang est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.mojangOptions": "Options de cape Mojang",
+  "text.autoconfig.cape_cacher.option.capes.mojangOptions.getNotified": "Vous avertit lorsqu'une cape Mojang est trouvée",
 
-  "text.autoconfig.cape_cacher.option.mojangStudiosOptions": "Options de cape Mojang Studios",
-  "text.autoconfig.cape_cacher.option.mojangStudiosOptions.getNotified": "Vous avertit lorsqu'une cape Mojang Studios est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.mojangStudiosOptions": "Options de cape Mojang Studios",
+  "text.autoconfig.cape_cacher.option.capes.mojangStudiosOptions.getNotified": "Vous avertit lorsqu'une cape Mojang Studios est trouvée",
 
-  "text.autoconfig.cape_cacher.option.turtleOptions": "Options de cape de tortue",
-  "text.autoconfig.cape_cacher.option.turtleOptions.getNotified": "Vous avertit lorsqu'une cape de tortue est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.turtleOptions": "Options de cape de tortue",
+  "text.autoconfig.cape_cacher.option.capes.turtleOptions.getNotified": "Vous avertit lorsqu'une cape de tortue est trouvée",
 
-  "text.autoconfig.cape_cacher.option.prismarineOptions": "Options de cape de prismarine",
-  "text.autoconfig.cape_cacher.option.prismarineOptions.getNotified": "Vous avertit lorsqu'une cape de prismarine est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.prismarineOptions": "Options de cape de prismarine",
+  "text.autoconfig.cape_cacher.option.capes.prismarineOptions.getNotified": "Vous avertit lorsqu'une cape de prismarine est trouvée",
 
-  "text.autoconfig.cape_cacher.option.dannyBStyleOptions": "Options de cape DannyBStyle",
-  "text.autoconfig.cape_cacher.option.dannyBStyleOptions.getNotified": "Vous avertit lorsqu'une cape DannyB Style est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.dannyBStyleOptions": "Options de cape DannyBStyle",
+  "text.autoconfig.cape_cacher.option.capes.dannyBStyleOptions.getNotified": "Vous avertit lorsqu'une cape DannyB Style est trouvée",
 
-  "text.autoconfig.cape_cacher.option.julianClarkOptions": "Options de cape JulianClark",
-  "text.autoconfig.cape_cacher.option.julianClarkOptions.getNotified": "Vous avertit lorsqu'une cape JulianClark est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.julianClarkOptions": "Options de cape JulianClark",
+  "text.autoconfig.cape_cacher.option.capes.julianClarkOptions.getNotified": "Vous avertit lorsqu'une cape JulianClark est trouvée",
 
-  "text.autoconfig.cape_cacher.option.cheapsh0tOptions": "Options de cape Cheapsh0t",
-  "text.autoconfig.cape_cacher.option.cheapsh0tOptions.getNotified": "Vous avertit lorsqu'une cape Cheapsh0t est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.cheapsh0tOptions": "Options de cape Cheapsh0t",
+  "text.autoconfig.cape_cacher.option.capes.cheapsh0tOptions.getNotified": "Vous avertit lorsqu'une cape Cheapsh0t est trouvée",
 
-  "text.autoconfig.cape_cacher.option.mrMessiahOptions": "Options de cape MrMessiah",
-  "text.autoconfig.cape_cacher.option.mrMessiahOptions.getNotified": "Vous avertit lorsqu'une cape MrMessiah est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.mrMessiahOptions": "Options de cape MrMessiah",
+  "text.autoconfig.cape_cacher.option.capes.mrMessiahOptions.getNotified": "Vous avertit lorsqu'une cape MrMessiah est trouvée",
 
-  "text.autoconfig.cape_cacher.option.birthdayOptions": "Options de cape d'anniversaire",
-  "text.autoconfig.cape_cacher.option.birthdayOptions.getNotified": "Vous avertit lorsqu'une cape d'anniversaire est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.birthdayOptions": "Options de cape d'anniversaire",
+  "text.autoconfig.cape_cacher.option.capes.birthdayOptions.getNotified": "Vous avertit lorsqu'une cape d'anniversaire est trouvée",
 
-  "text.autoconfig.cape_cacher.option.valentineOptions": "Options de cape de Saint-Valentin",
-  "text.autoconfig.cape_cacher.option.valentineOptions.getNotified": "Vous avertit lorsqu'une cape de Saint-Valentin est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.valentineOptions": "Options de cape de Saint-Valentin",
+  "text.autoconfig.cape_cacher.option.capes.valentineOptions.getNotified": "Vous avertit lorsqu'une cape de Saint-Valentin est trouvée",
 
-  "text.autoconfig.cape_cacher.option.millionthSaleOptions": "Options de cape du millionième achat",
-  "text.autoconfig.cape_cacher.option.millionthSaleOptions.getNotified": "Vous avertit lorsqu'une cape du millionième achat est trouvée",
+  "text.autoconfig.cape_cacher.option.capes.millionthSaleOptions": "Options de cape du millionième achat",
+  "text.autoconfig.cape_cacher.option.capes.millionthSaleOptions.getNotified": "Vous avertit lorsqu'une cape du millionième achat est trouvée",
 
-  "text.autoconfig.cape_cacher.option.unknownCapeOptions": "Options de cape inconnue",
-  "text.autoconfig.cape_cacher.option.unknownCapeOptions.getNotified": "Vous avertit lorsqu'une cape inconnue est trouvée"
+  "text.autoconfig.cape_cacher.option.capes.unknownCapeOptions": "Options de cape inconnue",
+  "text.autoconfig.cape_cacher.option.capes.unknownCapeOptions.getNotified": "Vous avertit lorsqu'une cape inconnue est trouvée"
 }

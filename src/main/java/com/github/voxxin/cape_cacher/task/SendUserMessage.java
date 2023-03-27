@@ -12,8 +12,8 @@ public class SendUserMessage {
 
         MinecraftClient.getInstance().player.sendMessage(Text.of("§f§l[§cCAPES.ME§f§l] §e-> " + "§fFound User §a" + username + " §e: " + capeName), false);
 
-        if (ModConfig.notifySoundAll) {
-            MinecraftClient.getInstance().player.playSound(SoundEvents.ENTITY_CAT_PURREOW, ModConfig.notifySoundStrength, 1f);
+        if (ModConfig.getNotifyMessageAll()) {
+            MinecraftClient.getInstance().player.playSound(SoundEvents.ENTITY_CAT_PURREOW, ModConfig.getNotifySoundStrength(), 1f);
         }
     }
 }
