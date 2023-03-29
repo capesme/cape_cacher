@@ -1,15 +1,15 @@
 package com.github.voxxin.cape_cacher.mixin;
 
+import com.github.voxxin.cape_cacher.client.CapeCacher;
 import com.github.voxxin.cape_cacher.config.ModConfig;
 import com.github.voxxin.cape_cacher.task.IdentifyCapeType;
 import com.github.voxxin.cape_cacher.task.PingSite;
 import com.github.voxxin.cape_cacher.task.SendUserMessage;
-import com.github.voxxin.cape_cacher.task.ValidateUUID;
+import com.github.voxxin.cape_cacher.task.UserObject;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.realms.Ping;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -17,10 +17,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 
 @Mixin(PlayerListEntry.class)
@@ -42,7 +40,7 @@ public abstract class PlayerSkinProviderMixin {
     @Shadow public abstract GameProfile getProfile();
 
     @Inject(at = @At("HEAD"), method = "method_2956 ")
-    private void loadSkin(MinecraftProfileTexture.Type type, Identifier id, MinecraftProfileTexture texture, CallbackInfo ci) throws IOException {
+    private void loadSkin(MinecraftProfileTexture.Type type, Identifier id, MinecraftProfileTexture texture, CallbackInfo ci) {
         MinecraftProfileTexture.Type CAPE = MinecraftProfileTexture.Type.CAPE;
         String textureURL = texture.getUrl();
 
@@ -50,9 +48,10 @@ public abstract class PlayerSkinProviderMixin {
         if (textureURL.equalsIgnoreCase(Broken2016Url)) return;
         if (textureURL.equalsIgnoreCase(Broken2012Url)) return;
 
+        if (MinecraftClient.getInstance().player == null) return;
 
         final String playerUUID = getProfile().getId().toString();
-        if (!ValidateUUID.validateUUID(playerUUID)) return;
+        if (playerUUID.endsWith("0000-000000000000")) return;
 
         final String playerName = getProfile().getName();
         String[] capeInfo = IdentifyCapeType.CapeIdentifier(textureURL);
@@ -67,6 +66,11 @@ public abstract class PlayerSkinProviderMixin {
             System.out.println(textureURL);
             return;
         }
+
+        UserObject thisUserObject = new UserObject(playerUUID, textureURL);
+        if (CapeCacher.userCapeMap.contains(thisUserObject)) return;
+
+        CapeCacher.userCapeMap.add(thisUserObject);
 
         assert MinecraftClient.getInstance().player != null;
         if (playerUUID.equals(MinecraftClient.getInstance().player.getUuid().toString()) && !ModConfig.getNotifyWhenCacheSelf()) return;

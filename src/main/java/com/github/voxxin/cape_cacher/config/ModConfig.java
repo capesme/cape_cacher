@@ -5,14 +5,12 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
-import static com.github.voxxin.cape_cacher.config.ModMenu.*;
-
 @Config(name = CapeCacher.MODID)
 public class ModConfig implements ConfigData {
-    @ConfigEntry.Gui.CollapsibleObject()
+    @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
     public Default aDefault = new Default();
 
-    @ConfigEntry.Gui.CollapsibleObject()
+    @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
     public Capes capes = new Capes();
 
     // General - ALL

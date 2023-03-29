@@ -9,8 +9,4 @@ public class ModMenu implements ModMenuApi {
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return screen -> AutoConfig.getConfigScreen(ModConfig.class, screen).get();
     }
-
-    public static class capeSettings {
-        public boolean getNotified = true;
-    }
 }

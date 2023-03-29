@@ -1,6 +1,6 @@
 package com.github.voxxin.cape_cacher.client;
 import com.github.voxxin.cape_cacher.config.ModConfig;
-import com.github.voxxin.cape_cacher.config.ModMenu;
+import com.github.voxxin.cape_cacher.task.UserObjectList;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
@@ -12,6 +12,7 @@ public class CapeCacher implements ClientModInitializer {
     public static final String MODID = "cape_cacher";
 
     public static ModConfig config;
+    public static UserObjectList userCapeMap = new UserObjectList();
 
     @Override
     public void onInitializeClient() {
@@ -19,3 +20,4 @@ public class CapeCacher implements ClientModInitializer {
         config  = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
     }
 }
+

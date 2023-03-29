@@ -89,7 +89,7 @@ F
                 capeInfo[2] = "1";
                 return capeInfo;
             }
-            case "3efadf6510961830f9fcc077f19b4daf286d502b5f5aafbd807c7bbffcaca245" -> {
+            case "ca35c56efe71ed290385f4ab5346a1826b546a54d519e6a3ff01efa01acce81" -> {
                 if(!CapeCacher.config.capes.cobaltOptions) return capeInfo;
 
                 capeInfo[0] = "Cobalt";
@@ -97,7 +97,7 @@ F
                 capeInfo[2] = "2";
                 return capeInfo;
             }
-            case "ca35c56efe71ed290385f4ab5346a1826b546a54d519e6a3ff01efa01acce81" -> {
+            case "3efadf6510961830f9fcc077f19b4daf286d502b5f5aafbd807c7bbffcaca245" -> {
                 if(!CapeCacher.config.capes.scrollsChampOptions) return capeInfo;
 
                 capeInfo[0] = "Scrolls Champ";
