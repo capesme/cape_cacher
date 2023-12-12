@@ -6,6 +6,7 @@ import com.github.voxxin.cape_cacher.config.model.CapeSettingsB;
 import com.github.voxxin.cape_cacher.config.model.CapeSettingsI;
 import com.github.voxxin.cape_cacher.config.model.CapesObject;
 import com.github.voxxin.cape_cacher.config.model.ModSettingsModel;
+import com.github.voxxin.cape_cacher.task.util.ProcessCapes;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import net.fabricmc.loader.api.FabricLoader;
@@ -156,48 +157,7 @@ public class ModConfig {
     }
 
     private static void setupCapeConfig() {
-        for (JsonElement capeObj : StaticValues.capesJsonObject) {
-            JsonObject cape = capeObj.getAsJsonObject();
-            String capeName = cape.get("title").getAsString();
-            String capeURL = cape.get("url").getAsString();
-            String capeType = cape.get("type").getAsString();
-            int capeColour;
-            if (cape.has("colour") && cape.get("colour").getAsInt() != 0) {
-                capeColour = cape.get("colour").getAsInt();
-            } else {
-                int hexColor = 0x718bd4;
-                int red = (hexColor >> 16) & 0xFF;
-                int green = (hexColor >> 8) & 0xFF;
-                int blue = hexColor & 0xFF;
-                capeColour = ColorHelper.Argb.getArgb(255, red, green, blue);
-            }
-            ArrayList<String> capeAlts = new ArrayList<>();
-
-            JsonObject capeObject = new JsonObject();
-            capeObject.addProperty("name", capeName);
-            capeObject.addProperty("url", capeURL);
-            capeObject.addProperty("type", capeType);
-            capeObject.addProperty("colour", capeColour);
-
-            JsonArray capeSettingsArray = new JsonArray();
-            for (CapeSettingsB.CapeSettingsBTemplate setting : CapeSettingsB.CapeSettingsBTemplate.values()) {
-                JsonObject settingObject = new JsonObject();
-                settingObject.addProperty(setting.key, setting.value);
-                capeSettingsArray.add(settingObject);
-            }
-
-            JsonArray altsArray = new JsonArray();
-            for (String alt : capeAlts) {
-                altsArray.add(alt);
-            }
-
-            capeObject.add("settings", capeSettingsArray);
-            capeObject.add("alts", altsArray);
-
-            StaticValues.settingCapes.add(gson.fromJson(capeObject, CapesObject.class));
-        }
-
-        exportCapeConfig();
+        ProcessCapes.processCapes();
     }
 
     public static void importModConfig(File file) {

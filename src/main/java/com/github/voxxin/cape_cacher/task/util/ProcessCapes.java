@@ -41,6 +41,7 @@ public class ProcessCapes {
             }
 
             if (!found) {
+                websiteCape.colour = 0x5865F2;
                 processedCapes.add(websiteCape);
                 flaggedChange = true;
             }
