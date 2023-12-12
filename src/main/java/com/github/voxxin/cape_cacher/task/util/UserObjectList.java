@@ -1,7 +1,6 @@
-package com.github.voxxin.cape_cacher.task;
+package com.github.voxxin.cape_cacher.task.util;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class UserObjectList {
     private final ArrayList<UserObject> userObjectArrayList = new ArrayList<>();

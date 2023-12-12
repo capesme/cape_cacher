@@ -1,4 +1,4 @@
-package com.github.voxxin.cape_cacher.task;
+package com.github.voxxin.cape_cacher.task.util;
 
 import java.util.Objects;
 

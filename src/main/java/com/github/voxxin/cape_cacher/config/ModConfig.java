@@ -1,105 +1,244 @@
 package com.github.voxxin.cape_cacher.config;
 
 import com.github.voxxin.cape_cacher.client.CapeCacher;
-import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.annotation.Config;
-import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import com.github.voxxin.cape_cacher.client.StaticValues;
+import com.github.voxxin.cape_cacher.config.model.CapeSettingsB;
+import com.github.voxxin.cape_cacher.config.model.CapeSettingsI;
+import com.github.voxxin.cape_cacher.config.model.CapesObject;
+import com.github.voxxin.cape_cacher.config.model.ModSettingsModel;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.util.math.ColorHelper;
 
-@Config(name = CapeCacher.MODID)
-public class ModConfig implements ConfigData {
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
-    public Default aDefault = new Default();
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.*;
 
-    @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
-    public Capes capes = new Capes();
+public class ModConfig {
 
-    // General - ALL
-    public class Default {
-        boolean notifyWhenCacheSelf = false;
-        boolean notifyMessageAll = true;
-        boolean notifySoundAll = true;
-        @ConfigEntry.BoundedDiscrete(max = 5L, min = 0L)
-        long notifySoundStrength = 2;
+    private static final File modDir = FabricLoader.getInstance().getConfigDir().resolve(CapeCacher.MODID).toFile();
+    private static final File  configDir = new File(modDir, "config");
+
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+    public ModConfig() { init(); }
+
+    public static void init() {
+        try {
+            configDir.mkdirs();
+
+            File[] configs = configDir.listFiles();
+            assert configs != null;
+            Optional<File> capeConfigFile = Arrays.stream(configs).filter(file -> file.getName().equals("capes.json")).findFirst();
+            Optional<File> modConfigFile = Arrays.stream(configs).filter(file -> file.getName().equals("mod.json")).findFirst();
+
+            if (capeConfigFile.isPresent()) {
+                importCapeConfig(capeConfigFile.get()); }
+            else { exportCapeConfig(); }
+
+            if (modConfigFile.isPresent()) {
+                importModConfig(modConfigFile.get()); }
+            else { exportModConfig(); }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    // Capes - ALL
-    public class Capes {
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean migratorOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean vanillaOptions = true;
 
-        // Capes - MineCons
+    private static void importCapeConfig(File file) {
+        try {
+            JsonElement JSONedElement1;
 
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean mineCon2011Options = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean mineCon2012Options = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean mineCon2013Options = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean mineCon2015Options = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean mineCon2016Options = true;
+            if (file != null) {
+                FileReader fileReader = new FileReader(file);
+                JSONedElement1 = gson.fromJson(fileReader, JsonElement.class);
+            } else return;
 
-        // Capes - "SPECIALS"
+            JsonArray JSONedArray = JSONedElement1.getAsJsonArray();
 
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean cobaltOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean scrollsChampOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean moderatorOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean translatorOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean mapMakerOptions = true;
+            for (JsonElement JSONedElement2 : JSONedArray) {
+                JsonObject JSONedFile = JSONedElement2.getAsJsonObject();
 
-        // Capes - "UNIQUES"
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean translatorCNOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean mojangOldOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean mojangOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean mojangStudiosOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean turtleOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean prismarineOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean dannyBStyleOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean julianClarkOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean cheapsh0tOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean mrMessiahOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean birthdayOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean valentineOptions = true;
-        @ConfigEntry.Gui.CollapsibleObject
-        public boolean millionthSaleOptions = true;
+                JsonArray altsArray = JSONedFile.get("alts").getAsJsonArray();
+                ArrayList<String> alts = altsArray == null ? new ArrayList<>() : new Gson().fromJson(altsArray, new TypeToken<ArrayList<String>>() {}.getType());
 
-        @ConfigEntry.Gui.CollapsibleObject()
-        public boolean unknownCapeOptions = true;
+
+                CapesObject cape = new CapesObject(
+                        JSONedFile.get("url").getAsString(),
+                        JSONedFile.get("type").getAsString(),
+                        JSONedFile.get("colour").getAsInt(),
+                        JSONedFile.get("name").getAsString(),
+                        alts
+                );
+
+                for (CapeSettingsI.CapeSettingsITemplate setting : CapeSettingsI.CapeSettingsITemplate.values()) {
+                    String value = String.format("0x%06X",(0xFFFFFF & JSONedFile.get("colour").getAsInt()));
+                    cape.setSettingI(setting.key, value);
+                }
+
+                JsonArray settingsArray = JSONedFile.get("settings").getAsJsonArray();
+                for (int i = 0; i < settingsArray.size(); i++) {
+                    JsonObject setting = settingsArray.get(i).getAsJsonObject();
+                    String key = setting.entrySet().iterator().next().getKey();
+                    boolean value = setting.entrySet().iterator().next().getValue().getAsBoolean();
+
+                    cape.setSettingB(key, value);
+                }
+
+                StaticValues.settingCapes.add(cape);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error loading cape config file: " + e.getMessage());
+        }
     }
 
-    public static boolean getNotifyWhenCacheSelf() {
-        return CapeCacher.config.aDefault.notifyWhenCacheSelf;
+        public static void exportCapeConfig() {
+        ArrayList<CapesObject> capes = StaticValues.settingCapes;
+
+        if (capes.isEmpty()) {
+            setupCapeConfig();
+            return;
+        }
+
+        JsonArray capesObject = new JsonArray();
+        for (CapesObject cape : capes) {
+            String capeName = cape.title;
+            String capeURL = cape.URL;
+            String capeType = cape.type;
+            int capeColour = cape.colour;
+            ArrayList<String> capeAlts = cape.alts;
+
+            JsonObject capeObject = new JsonObject();
+            capeObject.addProperty("name", capeName);
+            capeObject.addProperty("url", capeURL);
+            capeObject.addProperty("type", capeType);
+            capeObject.addProperty("colour", capeColour);
+
+            JsonArray capeSettingsArray = new JsonArray();
+
+            for (CapeSettingsB.CapeSettingsBTemplate temp0 : CapeSettingsB.CapeSettingsBTemplate.values()) {
+                JsonObject settingObject = new JsonObject();
+                if (cape.getSettingB(temp0.key) != null) {
+                    CapeSettingsB setting = cape.getSettingB(temp0.key);
+                    settingObject.addProperty(setting.key, setting.value);
+                } else {
+                    settingObject.addProperty(temp0.key, true);
+                }
+                capeSettingsArray.add(settingObject);
+            }
+
+            JsonArray altsArray = new JsonArray();
+            for (String alt : capeAlts) {
+                altsArray.add(alt);
+            }
+
+            capeObject.add("settings", capeSettingsArray);
+            capeObject.add("alts", altsArray);
+
+            capesObject.add(capeObject);
+        }
+
+        String capesJson = gson.toJson(capesObject);
+        File capesFile = new File(configDir, "capes.json");
+
+        try {
+            capesFile.createNewFile();
+            FileWriter writer = new FileWriter(capesFile);
+            writer.write(capesJson);
+            writer.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static boolean getNotifyMessageAll() {
-        return CapeCacher.config.aDefault.notifyMessageAll;
+    private static void setupCapeConfig() {
+        for (JsonElement capeObj : StaticValues.capesJsonObject) {
+            JsonObject cape = capeObj.getAsJsonObject();
+            String capeName = cape.get("title").getAsString();
+            String capeURL = cape.get("url").getAsString();
+            String capeType = cape.get("type").getAsString();
+            int capeColour;
+            if (cape.has("colour") && cape.get("colour").getAsInt() != 0) {
+                capeColour = cape.get("colour").getAsInt();
+            } else {
+                int hexColor = 0x718bd4;
+                int red = (hexColor >> 16) & 0xFF;
+                int green = (hexColor >> 8) & 0xFF;
+                int blue = hexColor & 0xFF;
+                capeColour = ColorHelper.Argb.getArgb(255, red, green, blue);
+            }
+            ArrayList<String> capeAlts = new ArrayList<>();
+
+            JsonObject capeObject = new JsonObject();
+            capeObject.addProperty("name", capeName);
+            capeObject.addProperty("url", capeURL);
+            capeObject.addProperty("type", capeType);
+            capeObject.addProperty("colour", capeColour);
+
+            JsonArray capeSettingsArray = new JsonArray();
+            for (CapeSettingsB.CapeSettingsBTemplate setting : CapeSettingsB.CapeSettingsBTemplate.values()) {
+                JsonObject settingObject = new JsonObject();
+                settingObject.addProperty(setting.key, setting.value);
+                capeSettingsArray.add(settingObject);
+            }
+
+            JsonArray altsArray = new JsonArray();
+            for (String alt : capeAlts) {
+                altsArray.add(alt);
+            }
+
+            capeObject.add("settings", capeSettingsArray);
+            capeObject.add("alts", altsArray);
+
+            StaticValues.settingCapes.add(gson.fromJson(capeObject, CapesObject.class));
+        }
+
+        exportCapeConfig();
     }
 
-    public static boolean getNotifySoundAll() {
-        return CapeCacher.config.aDefault.notifySoundAll;
+    public static void importModConfig(File file) {
+        try {
+            JsonElement JSONedElement1;
+
+            if (file != null) {
+                FileReader fileReader = new FileReader(file);
+                JSONedElement1 = gson.fromJson(fileReader, JsonElement.class);
+            } else return;
+
+            JsonObject JSONedObject = JSONedElement1.getAsJsonObject();
+
+            for (ModSettingsModel setting : ModSettingsModel.values()) {
+                if (JSONedObject.has(setting.key)) {
+                    setting.value = JSONedObject.get(setting.key).getAsString();
+                }
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error loading mod config file: " + e.getMessage());
+        }
     }
 
-    public static long getNotifySoundStrength() {
-        return CapeCacher.config.aDefault.notifySoundStrength;
+    public static void exportModConfig() {
+        JsonObject modConfig = new JsonObject();
+
+        for (ModSettingsModel setting : ModSettingsModel.values()) {
+            modConfig.addProperty(setting.key, setting.value);
+        }
+
+        String modConfigJson = gson.toJson(modConfig);
+        File modConfigFile = new File(configDir, "mod.json");
+
+        try {
+            modConfigFile.createNewFile();
+            FileWriter writer = new FileWriter(modConfigFile);
+            writer.write(modConfigJson);
+            writer.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

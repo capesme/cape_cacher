@@ -25,7 +25,6 @@
     "cape_cacher.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.10",
-    "fabric": "*"
+    "fabricloader": ">=0.14.10"
   }
 }
