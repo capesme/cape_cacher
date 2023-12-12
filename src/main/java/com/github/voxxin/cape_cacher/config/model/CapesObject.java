@@ -40,7 +40,7 @@ public class CapesObject {
     }
 
     public CapeSettingsB getSettingB(String key) {
-        if (settingsB.containsKey(key)) return settingsB.get(key);
+        if (settingsB != null && settingsB.containsKey(key)) return settingsB.get(key);
         else return new CapeSettingsB(true, key);
     }
 
