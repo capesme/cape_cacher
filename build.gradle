@@ -7,10 +7,6 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
-
-    // cloth config
-    maven { url "https://maven.shedaniel.me/" }
-
     // mod menu
     maven {
         name = 'TerraformersMC'

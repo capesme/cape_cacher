@@ -1,5 +1,6 @@
 package com.github.voxxin.cape_cacher.config;
 
+
 import com.github.voxxin.cape_cacher.client.CapeCacher;
 import com.github.voxxin.cape_cacher.client.StaticValues;
 import com.github.voxxin.cape_cacher.config.model.*;
@@ -8,10 +9,8 @@ import com.github.voxxin.cape_cacher.config.screen.ColourDisplayWidget;
 import com.github.voxxin.cape_cacher.config.screen.OptionBackgroundWidget;
 import com.github.voxxin.cape_cacher.config.screen.OutlineAreaWidget;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.AddServerScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -82,9 +81,6 @@ public class ConfigUI extends Screen {
             resetAndClear = false;
             this.clearAndInit();
         }
-
-        System.out.println(maxScrollY);
-        System.out.println(screenSpacing);
     }
 
     private void handleCategories(int spacingHorizontal0, int screenSpacingVertical0, int screenHorz0, int screenHorz1, int buttonSize) {
@@ -310,6 +306,7 @@ public class ConfigUI extends Screen {
 //        this.clearAndInit();
 //        return super.mouseScrolled(mouseX, mouseY, mouseY, verticalAmount);
 //    }
+
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double amount) {

@@ -3,12 +3,14 @@
   "id": "cape_cacher",
   "version": "${version}",
   "name": "Cape_cacher",
-  "description": "Caches and lets you know of all capes in your loaded chunks!",
+  "description": "Caches and lets you know of all capes of players in your world!",
   "authors": [
     "ella"
   ],
   "contact": {
-    "website": "https://capes.me/"
+    "homepage": "https://capes.me",
+    "issues": "https://github.com/capesme/cape_cacher/issues",
+    "sources": "https://github.com/capesme/cape_cacher"
   },
   "license": "MIT",
   "icon": "assets/cape_cacher/icon.png",

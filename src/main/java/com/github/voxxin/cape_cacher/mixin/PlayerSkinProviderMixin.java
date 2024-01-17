@@ -2,7 +2,6 @@ package com.github.voxxin.cape_cacher.mixin;
 
 import com.github.voxxin.cape_cacher.client.CapeCacher;
 import com.github.voxxin.cape_cacher.client.StaticValues;
-import com.github.voxxin.cape_cacher.config.ModConfig;
 import com.github.voxxin.cape_cacher.config.model.CapeSettingsB;
 import com.github.voxxin.cape_cacher.config.model.CapesObject;
 import com.github.voxxin.cape_cacher.config.model.ModSettingsModel;
@@ -13,7 +12,11 @@ import com.github.voxxin.cape_cacher.task.util.UserObject;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.feature.CapeFeatureRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -24,9 +27,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 @Mixin(PlayerListEntry.class)
