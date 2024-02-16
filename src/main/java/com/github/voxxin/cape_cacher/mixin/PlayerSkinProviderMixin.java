@@ -12,39 +12,61 @@ import com.github.voxxin.cape_cacher.task.SendUserMessage;
 import com.github.voxxin.cape_cacher.task.util.UserObject;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import com.mojang.authlib.minecraft.MinecraftProfileTextures;
+import com.mojang.authlib.minecraft.MinecraftSessionService;
+import com.mojang.authlib.yggdrasil.ProfileResult;
 import net.minecraft.client.MinecraftClient;
+<<<<<<< Updated upstream
 import net.minecraft.client.network.PlayerListEntry;
+=======
+import net.minecraft.client.texture.PlayerSkinProvider;
+import net.minecraft.client.util.SkinTextures;
+>>>>>>> Stashed changes
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
-import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-@Mixin(PlayerListEntry.class)
+@Mixin(PlayerSkinProvider.class)
 public abstract class PlayerSkinProviderMixin {
-    @Shadow public abstract GameProfile getProfile();
+    @Inject(at = @At("TAIL"), method = "fetchSkinTextures(Ljava/util/UUID;Lcom/mojang/authlib/minecraft/MinecraftProfileTextures;)Ljava/util/concurrent/CompletableFuture;", locals = LocalCapture.CAPTURE_FAILHARD)
+    private void loadSkin(
+            UUID uuid, MinecraftProfileTextures textures,
+            CallbackInfoReturnable<CompletableFuture<SkinTextures>> cir,
+            MinecraftProfileTexture minecraftProfileTexture,
+            CompletableFuture completableFuture,
+            SkinTextures.Model model, String string,
+            MinecraftProfileTexture minecraftProfileTexture2,
+            CompletableFuture completableFuture2, MinecraftProfileTexture minecraftProfileTexture3,
+            CompletableFuture completableFuture3) {
 
-    @Inject(at = @At("HEAD"), method = "method_2956")
-    private void loadSkin(MinecraftProfileTexture.Type type, Identifier id, MinecraftProfileTexture texture, CallbackInfo ci) {
-        MinecraftProfileTexture.Type CAPE = MinecraftProfileTexture.Type.CAPE;
-        String textureURL = texture.getUrl();
+        if (textures.cape() == null) return;
+        if (textures.cape().getUrl() == null) return;
 
-        if (!type.equals(CAPE)) return;
+        ProfileResult profileResult = MinecraftClient.getInstance().getSessionService().fetchProfile(uuid, true);
+        if (profileResult == null) return;
+        GameProfile profile = profileResult.profile();
+
+        String textureURL = textures.cape().getUrl();
+
         if (MinecraftClient.getInstance().player == null) return;
 
-        final String playerUUID = getProfile().getId().toString();
+        final String playerUUID = String.valueOf(profile.getId());
         if (playerUUID.endsWith("0000-000000000000")) return;
 
-        final String playerName = getProfile().getName();
+        final String playerName = profile.getName();
         CapesObject capeInfo = IdentifyCapeType.CapeIdentifier(textureURL);
         PingSite.pingCapesmeAsync(playerUUID)
                 .exceptionally(e -> {

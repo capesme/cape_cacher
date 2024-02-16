@@ -21,8 +21,13 @@ public class ColourDisplayWidget extends ClickableWidget {
     }
 
 
+//    @Override
+//    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+//        context.drawTextWithShadow(CapeCacher.client().textRenderer, Text.translatable("config.cape_cacher.cape.general.color_example"), this.pos[0], this.pos[1], Integer.parseInt(this.colour.substring(2),16));
+//    }
+
     @Override
-    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         context.drawTextWithShadow(CapeCacher.client().textRenderer, Text.translatable("config.cape_cacher.cape.general.color_example"), this.pos[0], this.pos[1], Integer.parseInt(this.colour.substring(2),16));
     }
 

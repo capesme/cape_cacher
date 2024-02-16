@@ -17,8 +17,16 @@ public class OutlineAreaWidget extends ClickableWidget {
         this.colour = colour;
     }
 
+//    @Override
+//    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+//        context.drawHorizontalLine(this.pos[0], this.pos[0] + this.size[0]-1, this.pos[1], this.colour);
+//        context.drawHorizontalLine(this.pos[0], this.pos[0] + this.size[0]-1, this.pos[1] + this.size[1], this.colour);
+//        context.drawVerticalLine(this.pos[0], this.pos[1] + this.size[1], this.pos[1], this.colour);
+//        context.drawVerticalLine(this.pos[0] + this.size[0]-1, this.pos[1] + this.size[1], this.pos[1], this.colour);
+//    }
+
     @Override
-    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         context.drawHorizontalLine(this.pos[0], this.pos[0] + this.size[0]-1, this.pos[1], this.colour);
         context.drawHorizontalLine(this.pos[0], this.pos[0] + this.size[0]-1, this.pos[1] + this.size[1], this.colour);
         context.drawVerticalLine(this.pos[0], this.pos[1] + this.size[1], this.pos[1], this.colour);

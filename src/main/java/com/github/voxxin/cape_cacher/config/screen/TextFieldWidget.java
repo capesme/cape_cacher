@@ -26,8 +26,13 @@ public class TextFieldWidget extends ClickableWidget {
     protected void appendClickableNarrations(NarrationMessageBuilder builder) {
     }
 
+//    @Override
+//    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+//        context.drawCenteredTextWithShadow(CapeCacher.client().textRenderer, text, this.pos[0] + this.size[0]/2, this.pos[1], this.colour);
+//    }
+
     @Override
-    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         context.drawCenteredTextWithShadow(CapeCacher.client().textRenderer, text, this.pos[0] + this.size[0]/2, this.pos[1], this.colour);
     }
 }

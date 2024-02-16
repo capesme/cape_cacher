@@ -297,6 +297,7 @@ public class ConfigUI extends Screen {
         CapeCacher.client().setScreen(parent);
     }
 
+<<<<<<< Updated upstream
 //    @Override
 //    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
 //        double accumulatedDelta = 0.0;
@@ -311,19 +312,36 @@ public class ConfigUI extends Screen {
 //        return super.mouseScrolled(mouseX, mouseY, mouseY, verticalAmount);
 //    }
 
+=======
+>>>>>>> Stashed changes
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
         double accumulatedDelta = 0.0;
         double smoothingFactor = 10;
 
-        accumulatedDelta += amount;
+        accumulatedDelta += verticalAmount;
         double smoothedDelta = accumulatedDelta * smoothingFactor;
         accumulatedDelta += smoothedDelta;
 
         scrollAmount = accumulatedDelta;
         this.clearAndInit();
-        return super.mouseScrolled(mouseX, mouseY, amount);
+        return super.mouseScrolled(mouseX, mouseY, mouseY, verticalAmount);
     }
+
+
+//    @Override
+//    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+//        double accumulatedDelta = 0.0;
+//        double smoothingFactor = 10;
+//
+//        accumulatedDelta += amount;
+//        double smoothedDelta = accumulatedDelta * smoothingFactor;
+//        accumulatedDelta += smoothedDelta;
+//
+//        scrollAmount = accumulatedDelta;
+//        this.clearAndInit();
+//        return super.mouseScrolled(mouseX, mouseY, amount);
+//    }
 
     private float sizeWithText(String text) {
         return CapeCacher.client().textRenderer.getTextHandler().getWidth(text);

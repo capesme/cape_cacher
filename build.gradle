@@ -35,6 +35,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
 
     modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
+
+    implementation("com.github.LlamaLad7:MixinExtras:0.1.1")
+    annotationProcessor("com.github.LlamaLad7:MixinExtras:0.1.1")
 }
 
     processResources {

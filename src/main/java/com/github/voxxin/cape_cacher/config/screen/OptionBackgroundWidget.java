@@ -24,8 +24,13 @@ public class OptionBackgroundWidget extends ClickableWidget {
     protected void appendClickableNarrations(NarrationMessageBuilder builder) {
     }
 
+//    @Override
+//    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+//        context.fill(this.pos[0], this.pos[1], this.pos[0] + this.size[0], this.pos[1] + this.size[1], 0x80000000);
+//    }
+
     @Override
-    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         context.fill(this.pos[0], this.pos[1], this.pos[0] + this.size[0], this.pos[1] + this.size[1], 0x80000000);
     }
 }
