@@ -8,7 +8,6 @@ import com.github.voxxin.cape_cacher.config.screen.ColourDisplayWidget;
 import com.github.voxxin.cape_cacher.config.screen.OptionBackgroundWidget;
 import com.github.voxxin.cape_cacher.config.screen.OutlineAreaWidget;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.AddServerScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
@@ -297,33 +296,34 @@ public class ConfigUI extends Screen {
         CapeCacher.client().setScreen(parent);
     }
 
-//    @Override
-//    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-//        double accumulatedDelta = 0.0;
-//        double smoothingFactor = 10;
-//
-//        accumulatedDelta += verticalAmount;
-//        double smoothedDelta = accumulatedDelta * smoothingFactor;
-//        accumulatedDelta += smoothedDelta;
-//
-//        scrollAmount = accumulatedDelta;
-//        this.clearAndInit();
-//        return super.mouseScrolled(mouseX, mouseY, mouseY, verticalAmount);
-//    }
-
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
         double accumulatedDelta = 0.0;
         double smoothingFactor = 10;
 
-        accumulatedDelta += amount;
+        accumulatedDelta += verticalAmount;
         double smoothedDelta = accumulatedDelta * smoothingFactor;
         accumulatedDelta += smoothedDelta;
 
         scrollAmount = accumulatedDelta;
         this.clearAndInit();
-        return super.mouseScrolled(mouseX, mouseY, amount);
+        return super.mouseScrolled(mouseX, mouseY, mouseY, verticalAmount);
     }
+
+
+//    @Override
+//    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+//        double accumulatedDelta = 0.0;
+//        double smoothingFactor = 10;
+//
+//        accumulatedDelta += amount;
+//        double smoothedDelta = accumulatedDelta * smoothingFactor;
+//        accumulatedDelta += smoothedDelta;
+//
+//        scrollAmount = accumulatedDelta;
+//        this.clearAndInit();
+//        return super.mouseScrolled(mouseX, mouseY, amount);
+//    }
 
     private float sizeWithText(String text) {
         return CapeCacher.client().textRenderer.getTextHandler().getWidth(text);
