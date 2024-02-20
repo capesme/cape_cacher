@@ -16,12 +16,8 @@ import com.mojang.authlib.minecraft.MinecraftProfileTextures;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.yggdrasil.ProfileResult;
 import net.minecraft.client.MinecraftClient;
-<<<<<<< Updated upstream
-import net.minecraft.client.network.PlayerListEntry;
-=======
 import net.minecraft.client.texture.PlayerSkinProvider;
 import net.minecraft.client.util.SkinTextures;
->>>>>>> Stashed changes
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -38,65 +34,80 @@ import java.util.concurrent.CompletableFuture;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @Mixin(PlayerSkinProvider.class)
 public abstract class PlayerSkinProviderMixin {
     @Inject(at = @At("TAIL"), method = "fetchSkinTextures(Ljava/util/UUID;Lcom/mojang/authlib/minecraft/MinecraftProfileTextures;)Ljava/util/concurrent/CompletableFuture;", locals = LocalCapture.CAPTURE_FAILHARD)
-    private void loadSkin(
-            UUID uuid, MinecraftProfileTextures textures,
-            CallbackInfoReturnable<CompletableFuture<SkinTextures>> cir,
-            MinecraftProfileTexture minecraftProfileTexture,
-            CompletableFuture completableFuture,
-            SkinTextures.Model model, String string,
-            MinecraftProfileTexture minecraftProfileTexture2,
-            CompletableFuture completableFuture2, MinecraftProfileTexture minecraftProfileTexture3,
-            CompletableFuture completableFuture3) {
+    private void loadSkin(UUID uuid, MinecraftProfileTextures textures, CallbackInfoReturnable<CompletableFuture<SkinTextures>> cir, MinecraftProfileTexture minecraftProfileTexture, CompletableFuture completableFuture, SkinTextures.Model model, String string, MinecraftProfileTexture minecraftProfileTexture2, CompletableFuture completableFuture2, MinecraftProfileTexture minecraftProfileTexture3, CompletableFuture completableFuture3) {
 
-        if (textures.cape() == null) return;
-        if (textures.cape().getUrl() == null) return;
+        // Check if the player's skin has a cape, return early if not
+        if (textures.cape() == null || textures.cape().getUrl() == null) {
+            return;
+        }
 
+        // Retrieve the player's profile
         ProfileResult profileResult = MinecraftClient.getInstance().getSessionService().fetchProfile(uuid, true);
+        // Return early if profile doesn't exist (Fake NPCs)
         if (profileResult == null) return;
-        GameProfile profile = profileResult.profile();
 
+        // Retrieve the player's profile and texture URL
+        GameProfile profile = profileResult.profile();
         String textureURL = textures.cape().getUrl();
 
+        // Make sure the client player exists. If not, return
         if (MinecraftClient.getInstance().player == null) return;
 
-        final String playerUUID = String.valueOf(profile.getId());
-        if (playerUUID.endsWith("0000-000000000000")) return;
-
-        final String playerName = profile.getName();
+        // Retrieve cape information
         CapesObject capeInfo = IdentifyCapeType.CapeIdentifier(textureURL);
-        PingSite.pingCapesmeAsync(playerUUID)
+
+        // Ping a site asynchronously with the player's UUID
+        PingSite.pingCapesmeAsync(profile.getId().toString())
                 .exceptionally(e -> {
                     CapeCacher.LOGGER.error("Request failed: " + e.getMessage());
                     return null;
                 });
 
-        UserObject thisUserObject = new UserObject(playerUUID, textureURL);
-        if (StaticValues.userCapeMap.contains(thisUserObject)) return;
+        // Create a UserObject with player's UUID and texture URL
+        UserObject thisUserObject = new UserObject(profile.getId().toString(), textureURL);
 
-        StaticValues.userCapeMap.add(thisUserObject);
-
-        assert MinecraftClient.getInstance().player != null;
-        if (capeInfo.type.equals("unknown")) PingSite.pingFoundNewAsync(playerUUID, textureURL.replace("http://textures.minecraft.net/texture/", ""));
-
-        if (playerUUID.equals(MinecraftClient.getInstance().player.getUuid().toString()) && !Boolean.parseBoolean(ModSettingsModel.NOTIFY_WHEN_SELF.value)) return;
-
-        if (!capeInfo.getSettingB(CapeSettingsB.CapeSettingsBTemplate.NOTIFY.key).value) return;
-        if (capeInfo.getSettingB(CapeSettingsB.CapeSettingsBTemplate.NOTIFY_IN_CONSOLE.key).value) {
-            CapeCacher.LOGGER.info("Found cape for " + playerName + " (" + playerUUID + ")" + " : " + capeInfo.title);
+        // Check if userCapeMap already contains thisUserObject, return early if so
+        if (StaticValues.userCapeMap.contains(thisUserObject)) {
+            return;
         }
 
+        // Add thisUserObject to userCapeMap
+        StaticValues.userCapeMap.add(thisUserObject);
 
+        // Check if cape type is unknown, ping site with the discovery
+        if ("unknown".equals(capeInfo.type)) {
+            PingSite.pingFoundNewAsync(profile.getId().toString(), textureURL.replace("http://textures.minecraft.net/texture/", ""));
+        }
+
+        // Check if current player is not the same as the discovered player and notifications for self-discovered capes are disabled, return early if so
+        if (profile.getId().toString().equals(MinecraftClient.getInstance().player.getUuid().toString()) &&
+                !Boolean.parseBoolean(ModSettingsModel.NOTIFY_WHEN_SELF.value)) {
+            return;
+        }
+
+        // Check if notifications for the discovered cape type are disabled, return early if so
+        if (!capeInfo.getSettingB(CapeSettingsB.CapeSettingsBTemplate.NOTIFY.key).value) {
+            return;
+        }
+
+        // Check if console notifications for the discovered cape type are enabled, log a message if so
+        if (capeInfo.getSettingB(CapeSettingsB.CapeSettingsBTemplate.NOTIFY_IN_CONSOLE.key).value) {
+            CapeCacher.LOGGER.info("Found cape for " + profile.getName() + " (" + profile.getId().toString() + ")" + " : " + capeInfo.title);
+        }
+
+        // Construct a Text object representing the discovered cape and send a message to the player
         Text foundCape = Text.literal(" ")
                 .append(capeInfo.title).fillStyle(
                         Style.EMPTY.withColor(TextColor.fromRgb(capeInfo.colour))
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, capeInfo.URL)));
+                                .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, capeInfo.URL)));
 
-        SendUserMessage.sendMessage(playerName, foundCape);
+        SendUserMessage.sendMessage(profile.getName(), foundCape);
     }
 }
+
+
 
 
