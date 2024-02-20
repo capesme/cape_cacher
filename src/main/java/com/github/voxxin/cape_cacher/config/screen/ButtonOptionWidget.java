@@ -65,29 +65,6 @@ public class ButtonOptionWidget extends ClickableWidget {
         context.drawTextWithShadow(CapeCacher.client().textRenderer, title.getString(), this.pos[0] + sizeX + 10, this.pos[1] - sizeY / 2, 0xFFFFFF);
     }
 
-//    @Override
-//    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
-//        int sizeX = this.size[0] / 2;
-//        int sizeY = this.size[1] / 2;
-//        boolean overlaying = WidgetUtil.overlaying(mouseX, mouseY, this.pos[0] - sizeX, this.pos[1] - sizeY, this.pos[0] + sizeX, this.pos[1] + sizeY);
-//
-//        if (KEYBOARD_MANAGER.isMouseKey(GLFW.GLFW_MOUSE_BUTTON_LEFT)
-//                && overlaying) {
-//            clicked();
-//        }
-//
-//        if (this.buttonOptionType != null) {
-//            if (!overlaying) {
-//                context.drawTexture(this.texture, this.pos[0] - sizeX, this.pos[1] - sizeY, 0, 0, 20, 20, 20, 20);
-//            } else {
-//                context.drawTexture(this.overlayTexture, this.pos[0] - sizeX, this.pos[1] - sizeY, 0, 0, 20, 20, 20, 20);
-//            }
-//        }
-//
-//        // Text
-//        context.drawTextWithShadow(CapeCacher.client().textRenderer, title.getString(), this.pos[0] + sizeX + 10, this.pos[1] - sizeY / 2, 0xFFFFFF);
-//    }
-
     @Override
     protected void appendClickableNarrations(NarrationMessageBuilder builder) {
     }

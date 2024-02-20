@@ -10,6 +10,7 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.math.ColorHelper;
+import org.apache.logging.log4j.Level;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -156,8 +157,12 @@ public class ModConfig {
     }
 
     private static void setupCapeConfig() {
+        CapeCacher.LOGGER.log(Level.ERROR, "Empty! -- At Startup");
+        CapeCacher.LOGGER.log(Level.INFO, "Size of capesJsonObject: " + StaticValues.capesJsonObject.size());
+
         for (JsonElement capeObj : StaticValues.capesJsonObject) {
             JsonObject cape = capeObj.getAsJsonObject();
+
             String capeName = cape.get("title").getAsString();
             String capeURL = cape.get("url").getAsString();
             String capeType = cape.get("type").getAsString();
@@ -174,7 +179,7 @@ public class ModConfig {
             ArrayList<String> capeAlts = new ArrayList<>();
 
             JsonObject capeObject = new JsonObject();
-            capeObject.addProperty("name", capeName);
+            capeObject.addProperty("title", capeName);
             capeObject.addProperty("url", capeURL);
             capeObject.addProperty("type", capeType);
             capeObject.addProperty("colour", capeColour);
@@ -195,6 +200,7 @@ public class ModConfig {
             capeObject.add("alts", altsArray);
 
             StaticValues.settingCapes.add(gson.fromJson(capeObject, CapesObject.class));
+            CapeCacher.LOGGER.log(Level.INFO, gson.fromJson(capeObject, CapesObject.class).title);
         }
 
         exportCapeConfig();
