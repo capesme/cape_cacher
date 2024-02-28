@@ -30,8 +30,7 @@ public class ProcessCapes {
                 if (websiteCape.URL.equals(processedCape.URL) || websiteCape.alts.contains(processedCape.URL)) {
                     websiteCape.colour = processedCape.colour;
                     websiteCape.settingsB = processedCape.settingsB;
-
-                    for (String key : processedCape.settingColour.keySet()) {
+                    if (processedCape.settingColour != null) for (String key : processedCape.settingColour.keySet()) {
                         websiteCape.setSettingI(key, processedCape.getSettingI(key).colour);
                     }
 

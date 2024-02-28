@@ -81,9 +81,6 @@ public class ConfigUI extends Screen {
             resetAndClear = false;
             this.clearAndInit();
         }
-
-        System.out.println(maxScrollY);
-        System.out.println(screenSpacing);
     }
 
     private void handleCategories(int spacingHorizontal0, int screenSpacingVertical0, int screenHorz0, int screenHorz1, int buttonSize) {

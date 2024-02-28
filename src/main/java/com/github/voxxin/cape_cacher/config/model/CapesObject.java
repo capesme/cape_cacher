@@ -40,12 +40,11 @@ public class CapesObject {
     }
 
     public CapeSettingsB getSettingB(String key) {
-        if (settingsB != null && settingsB.containsKey(key)) return settingsB.get(key);
-        else return new CapeSettingsB(true, key);
+        return settingsB != null && settingsB.containsKey(key) ? settingsB.get(key) : new CapeSettingsB(true, key);
     }
 
     public CapeSettingsI getSettingI(String key) {
-        return settingColour.get(key);
+        return settingColour.get(key) != null ? settingColour.get(key) : new CapeSettingsI(String.valueOf(this.colour), key);
     }
 
     public void setSettingB(String key, Boolean value) {

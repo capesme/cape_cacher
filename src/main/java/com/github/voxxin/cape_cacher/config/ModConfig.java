@@ -157,9 +157,6 @@ public class ModConfig {
     }
 
     private static void setupCapeConfig() {
-        CapeCacher.LOGGER.log(Level.ERROR, "Empty! -- At Startup");
-        CapeCacher.LOGGER.log(Level.INFO, "Size of capesJsonObject: " + StaticValues.capesJsonObject.size());
-
         for (JsonElement capeObj : StaticValues.capesJsonObject) {
             JsonObject cape = capeObj.getAsJsonObject();
 
@@ -180,7 +177,7 @@ public class ModConfig {
 
             JsonObject capeObject = new JsonObject();
             capeObject.addProperty("title", capeName);
-            capeObject.addProperty("url", capeURL);
+            capeObject.addProperty("URL", capeURL);
             capeObject.addProperty("type", capeType);
             capeObject.addProperty("colour", capeColour);
 
