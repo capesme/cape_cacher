@@ -1,40 +1,40 @@
 package com.github.voxxin.cape_cacher.task;
 
-import com.github.voxxin.cape_cacher.config.model.ModSettingsModel;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
+import com.github.voxxin.cape_cacher.client.CapeCacher;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.sounds.SoundEvents;
 
 public class SendUserMessage {
 
-    public static void sendMessage(String username, Text capeName) {
-        if (Boolean.parseBoolean(ModSettingsModel.NOTIFY_WHEN_ANY.value))
-        MinecraftClient.getInstance().player.sendMessage(
-                Text.literal("")
-                        .append(Text.literal("[").fillStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFFFF)).withBold(true)))
+    public static void sendMessage(String username, Component capeName) {
+        if (CapeCacher.manager.getModConfigOption("notify_when_self").getAsBoolean().getValue())
+        Minecraft.getInstance().player.displayClientMessage(
+                Component.literal("")
+                        .append(Component.literal("[").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFFFF)).withBold(true)))
 
-                        .append(Text.translatable("cape_cacher.name").fillStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFF0000))
+                        .append(Component.translatable("cape_cacher.name").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFF0000))
                                                 .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://modrinth.com/mod/cape-cacher"))))
 
-                        .append(Text.literal("]").fillStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFFFF))
+                        .append(Component.literal("]").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFFFF))
                                 .withBold(true)))
 
-                        .append(Text.literal(" -> ").fillStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFF00))
+                        .append(Component.literal(" => ").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFF00))
                                 .withBold(false)))
 
-                        .append(Text.translatable("text.cape_cacher.notify.found_user",
-                                Text.literal(username).fillStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x00FF00))
+                        .append(Component.translatable("text.cape_cacher.notify.found_user",
+                                Component.literal(username).withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x00FF00))
                                         .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://capes.me/" + username)))))
 
-                        .append(Text.literal(" :").fillStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFF00))))
+                        .append(Component.literal(" :").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFF00))))
 
                         .append(capeName),
                 false);
 
-        if (Boolean.parseBoolean(ModSettingsModel.NOTIFY_WITH_SOUND.value))
-            MinecraftClient.getInstance().player.playSound(SoundEvents.ENTITY_CAT_PURREOW, Float.parseFloat(ModSettingsModel.NOTIFY_SOUND_STRENGTH.value), 1f);
+        if (CapeCacher.manager.getModConfigOption("notify_with_sound").getAsBoolean().getValue())
+            Minecraft.getInstance().player.playSound(SoundEvents.CAT_PURR, CapeCacher.manager.getModConfigOption("notify_sound_strength").getAsNumber().getValueAsFloat(), 1f);
     }
 }

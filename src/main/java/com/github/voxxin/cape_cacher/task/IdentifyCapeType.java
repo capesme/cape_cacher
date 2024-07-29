@@ -1,27 +1,36 @@
 package com.github.voxxin.cape_cacher.task;
 
-import com.github.voxxin.cape_cacher.config.ModConfig;
-import com.github.voxxin.cape_cacher.config.model.CapesObject;
-import com.github.voxxin.cape_cacher.task.util.CustomJsonReader;
-import com.github.voxxin.cape_cacher.task.util.ProcessCapes;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.github.voxxin.api.config.option.*;
+import com.github.voxxin.cape_cacher.client.CapeCacher;
 
 public class IdentifyCapeType {
-    public static CapesObject CapeIdentifier(String CapeURL) {
-        CapesObject capeInfo = new CapesObject(CapeURL, "unknown", 0, "unknown", new ArrayList<>());
+    public static ConfigOption CapeIdentifier(String CapeURL) {
+        ConfigOption.Builder capeInfoB = new ConfigOption.Builder("unknown")
+                .addString(new StringConfigOption("name", "unknown"))
+                .addString(new StringConfigOption("url", CapeURL))
+                .addString(new StringConfigOption("type", "migrator_cape"))
+                .addNumber(new NumberConfigOption("colour", 0xFFFFFF))
+                .addConfigOption(
+                        new ConfigOption.Builder("settings")
+                                .addBoolean(new BooleanConfigOption("config.cape_cacher.cape.notify_when_found", true))
+                                .addBoolean(new BooleanConfigOption("config.cape_cacher.cape.notify_in_console", true))
+                                .build()
+                )
+                .addArray(new ArrayConfigOption("alts"));
 
-        if (!CapeURL.contains("http://textures.minecraft.net/texture/")) return capeInfo;
+        if (!CapeURL.contains("http://textures.minecraft.net/texture/")) return capeInfoB.build();
 
-        ArrayList<CapesObject> processedCapes = ProcessCapes.processCapes();
-
-        for (CapesObject capesObject : processedCapes) {
-            if (capesObject.URL.equals(CapeURL) || capesObject.alts.contains(CapeURL)) {
-                return capesObject;
+        for (AbstractOption capesObject : CapeCacher.manager.getCapesConfig().getOptions()) {
+            if (capesObject instanceof ConfigOption object) {
+                String url = object.getOption("url").getAsString().getValue();
+                boolean containsInAlts = object.getOption("alts").getAsArray().getElements().contains(CapeURL);
+                if (CapeURL.equals(url) || containsInAlts) {
+                    return object;
+                }
             }
         }
 
-        return capeInfo;
+        return capeInfoB.build();
     }
+
 }

@@ -34,7 +34,7 @@ public class PingSite {
     static {
         try {
             URL = new URL("https://capes.me/api/user/ping/");
-            API_URL = new URL("https://capes.me/api/capes");
+            API_URL = new URL("https://capes.me/api/capes/");
             API_FIND_URL = new URL("https://capes.me/api/found/");
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
@@ -69,7 +69,7 @@ public class PingSite {
 
     public static JsonArray fetchCapes() throws IOException, JsonSyntaxException {
         try {
-            String jsonString = new Scanner(API_URL.openStream(), "UTF-8").useDelimiter("\\A").next();
+            String jsonString = new Scanner(API_URL.openStream(), StandardCharsets.UTF_8).useDelimiter("\\A").next();
             return new Gson().fromJson(jsonString, JsonArray.class);
         } catch (IOException | JsonSyntaxException e) {
             throw new RuntimeException(e);
