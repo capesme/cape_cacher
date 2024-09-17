@@ -1,6 +1,5 @@
 package com.github.voxxin.cape_cacher.mixin;
 
-import com.github.voxxin.api.config.option.BooleanConfigOption;
 import com.github.voxxin.api.config.option.ConfigOption;
 import com.github.voxxin.cape_cacher.client.CapeCacher;
 import com.github.voxxin.cape_cacher.client.StaticValues;
@@ -8,10 +7,8 @@ import com.github.voxxin.cape_cacher.task.IdentifyCapeType;
 import com.github.voxxin.cape_cacher.task.PingSite;
 import com.github.voxxin.cape_cacher.task.SendUserMessage;
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.minecraft.MinecraftProfileTextures;
 import com.mojang.authlib.yggdrasil.ProfileResult;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.client.resources.SkinManager;
@@ -23,16 +20,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.BiConsumer;
 
 @Mixin(SkinManager.class)
 public abstract class PlayerSkinProviderMixin {
-    @Inject(at = @At("TAIL"), method = "registerTextures", locals = LocalCapture.CAPTURE_FAILHARD)
-    private void loadSkin(UUID uuid, MinecraftProfileTextures textures, CallbackInfoReturnable<CompletableFuture<PlayerSkin>> cir, MinecraftProfileTexture minecraftProfileTexture, CompletableFuture completableFuture, PlayerSkin.Model model, String string, MinecraftProfileTexture minecraftProfileTexture2, CompletableFuture completableFuture2, MinecraftProfileTexture minecraftProfileTexture3, CompletableFuture completableFuture3) {
+    @Inject(at = @At("TAIL"), method = "registerTextures")
+    private void loadSkin(UUID uuid, MinecraftProfileTextures textures, CallbackInfoReturnable<CompletableFuture<PlayerSkin>> cir) {
 
         // Check if the player's skin has a cape, return early if not
         if (textures.cape() == null || textures.cape().getUrl() == null) {

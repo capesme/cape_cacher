@@ -1,7 +1,6 @@
 package com.github.voxxin.cape_cacher.task;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -34,7 +33,7 @@ public class PingSite {
     static {
         try {
             URL = new URL("https://capes.me/api/user/ping/");
-            API_URL = new URL("https://capes.me/api/capes/");
+            API_URL = new URL("https://capes.me/api/capes");
             API_FIND_URL = new URL("https://capes.me/api/found/");
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
