@@ -1,7 +1,6 @@
 package com.github.voxxin.cape_cacher.task;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -69,7 +68,7 @@ public class PingSite {
 
     public static JsonArray fetchCapes() throws IOException, JsonSyntaxException {
         try {
-            String jsonString = new Scanner(API_URL.openStream(), "UTF-8").useDelimiter("\\A").next();
+            String jsonString = new Scanner(API_URL.openStream(), StandardCharsets.UTF_8).useDelimiter("\\A").next();
             return new Gson().fromJson(jsonString, JsonArray.class);
         } catch (IOException | JsonSyntaxException e) {
             throw new RuntimeException(e);

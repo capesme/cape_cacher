@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "cape_cacher",
   "version": "${version}",
-  "name": "Cape_cacher",
+  "name": "Cape Cacher",
   "description": "Caches and lets you know of all capes in your loaded chunks!",
   "authors": [
     "ella"
@@ -17,14 +17,11 @@
     "client": [
       "com.github.voxxin.cape_cacher.client.CapeCacher"
     ],
-    "modmenu": [
-      "com.github.voxxin.cape_cacher.config.ModMenu"
+    "webconfig": [
+      "com.github.voxxin.cape_cacher.config.WebConfigImpl"
     ]
   },
   "mixins": [
     "cape_cacher.mixins.json"
-  ],
-  "depends": {
-    "fabricloader": ">=0.14.10"
-  }
+  ]
 }
