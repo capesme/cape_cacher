@@ -106,11 +106,13 @@ public abstract class PlayerSkinProviderMixin {
 
     @Unique
     private boolean isSelfProfile(GameProfile profile) {
-        return profile.getId().toString().equals(
-                Minecraft.getInstance().player != null ?
-                        Minecraft.getInstance().player.getUUID().toString() :
-                        ""
-        ) && Manager.HANDLER.instance().notifyWhenSelf;
+        String profileId = profile.getId().toString().replaceAll("-", "");
+        String playerId = Minecraft.getInstance().player != null ?
+                Minecraft.getInstance().player.getUUID().toString().replaceAll("-", "") :
+                "";
+        boolean isSelf = profileId.equals(playerId);
+
+        return isSelf && !Manager.HANDLER.instance().notifyWhenSelf;
     }
 
     @Unique
