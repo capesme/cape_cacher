@@ -1,27 +1,47 @@
 package com.github.voxxin.cape_cacher.task;
 
-import com.github.voxxin.cape_cacher.config.ModConfig;
-import com.github.voxxin.cape_cacher.config.model.CapesObject;
-import com.github.voxxin.cape_cacher.task.util.CustomJsonReader;
-import com.github.voxxin.cape_cacher.task.util.ProcessCapes;
+import com.github.voxxin.cape_cacher.config.Manager;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class IdentifyCapeType {
-    public static CapesObject CapeIdentifier(String CapeURL) {
-        CapesObject capeInfo = new CapesObject(CapeURL, "unknown", 0, "unknown", new ArrayList<>());
+    public static JsonObject CapeIdentifier(String CapeURL) {
+        JsonObject capeInfoB = new JsonObject();
+        JsonObject baseB = new JsonObject();
 
-        if (!CapeURL.contains("http://textures.minecraft.net/texture/")) return capeInfo;
+        baseB.addProperty("url", CapeURL);
+        baseB.addProperty("title", "???");
+        baseB.addProperty("type", "unknown");
+        capeInfoB.add("base", baseB);
 
-        ArrayList<CapesObject> processedCapes = ProcessCapes.processCapes();
+        capeInfoB.addProperty("notify_when_found", true);
+        capeInfoB.addProperty("notify_in_console", false);
+        capeInfoB.addProperty("colour", -9335852);
 
-        for (CapesObject capesObject : processedCapes) {
-            if (capesObject.URL.equals(CapeURL) || capesObject.alts.contains(CapeURL)) {
-                return capesObject;
+        if (!CapeURL.contains("http://textures.minecraft.net/texture/")) return capeInfoB;
+
+        for (Map.Entry<String, JsonElement> capesObject : Manager.HANDLER.instance().capesJsonObject.entrySet()) {
+            JsonObject base = capesObject.getValue().getAsJsonObject().get("base").getAsJsonObject();
+            String url = base.get("url").getAsString();
+
+            List<String> alts;
+            JsonElement altsElement = base.get("alts");
+            if (altsElement != null && altsElement.isJsonArray()) {
+                alts = altsElement.getAsJsonArray().asList().stream()
+                        .map(JsonElement::getAsString)
+                        .toList();
+            } else {
+                alts = List.of();
+            }
+
+            if (CapeURL.equals(url) || alts.contains(CapeURL)) {
+                return capesObject.getValue().getAsJsonObject();
             }
         }
 
-        return capeInfo;
+        return capeInfoB;
     }
 }

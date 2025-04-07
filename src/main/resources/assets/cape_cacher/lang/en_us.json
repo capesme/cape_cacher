@@ -1,15 +1,25 @@
 {
   "cape_cacher.name": "Cape Cacher",
-  "text.cape_cacher.notify.found_user": "Found User %s",
-  "config.cape_cacher.category.cape": "Cape",
-  "config.cape_cacher.cape.notify_when_found": "Notify when found",
-  "config.cape_cacher.cape.notify_in_console": "Notify in console",
-  "config.cape_cacher.cape.general.color_example": "⬤",
-  "config.cape_cacher.cape.cape_color": "Cape Color",
-  "config.cape_cacher.category.general": "General",
-  "config.cape_cacher.general.notify_when_any": "Notify when any cape is found",
-  "config.cape_cacher.general.notify_in_console": "Notify in console",
-  "config.cape_cacher.general.notify_when_self": "Notify if your cape is found",
-  "config.cape_cacher.general.notify_with_sound": "Notify with sound",
-  "config.cape_cacher.general.notify_sound_strength": "Notification sound strength"
+  "text.cape_cacher.notify.found_user": "Cape Detected for %s",
+  "key.cape_cacher.open_config_menu": "Open Cape Cacher Settings",
+
+  "config.cape_cacher.category.cape": "Cape Settings",
+  "config.cape_cacher.cape.notify_when_found": "Detection Notifications",
+  "config.cape_cacher.cape.notify_when_found.tooltip": "Show alerts when this cape is spotted on players",
+  "config.cape_cacher.cape.notify_in_console": "Console Logging",
+  "config.cape_cacher.cape.notify_in_console.tooltip": "Record detections in game console",
+  "config.cape_cacher.cape.cape_color": "Display Color",
+  "config.cape_cacher.cape.cape_color.tooltip": "Color used for cape-related messages",
+
+  "config.cape_cacher.category.general": "General Settings",
+  "config.cape_cacher.general.notify_when_any": "Global Detection Alerts",
+  "config.cape_cacher.general.notify_when_any.tooltip": "Show notifications for any cape detection",
+  "config.cape_cacher.general.notify_in_console": "Global Console Logging",
+  "config.cape_cacher.general.notify_in_console.tooltip": "Log all cape detections to console",
+  "config.cape_cacher.general.notify_when_self": "Self-Detection Alerts",
+  "config.cape_cacher.general.notify_when_self.tooltip": "Notify when your own cape is detected",
+  "config.cape_cacher.general.notify_with_sound": "Audible Alerts",
+  "config.cape_cacher.general.notify_with_sound.tooltip": "Play sound when detecting capes",
+  "config.cape_cacher.general.notify_sound_strength": "Alert Volume",
+  "config.cape_cacher.general.notify_sound_strength.value": "Volume: %d%%"
 }

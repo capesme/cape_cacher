@@ -2,29 +2,53 @@
   "schemaVersion": 1,
   "id": "cape_cacher",
   "version": "${version}",
-  "name": "Cape_cacher",
+  "name": "Cape Cacher",
   "description": "Caches and lets you know of all capes in your loaded chunks!",
   "authors": [
     "ella"
   ],
   "contact": {
-    "website": "https://capes.me/"
+    "homepage": "https://modrinth.com/mod/cape-cacher",
+    "website": "https://capes.me",
+    "discord": "https://capes.me/discord",
+    "issues": "https://github.com/capesme/cape_cacher/issues"
   },
   "license": "MIT",
   "icon": "assets/cape_cacher/icon.png",
   "environment": "client",
   "entrypoints": {
-    "client": [
+    "main": [
       "com.github.voxxin.cape_cacher.client.CapeCacher"
     ],
     "modmenu": [
-      "com.github.voxxin.cape_cacher.config.ModMenu"
+      "com.github.voxxin.cape_cacher.config.ModMenuInt"
     ]
   },
   "mixins": [
     "cape_cacher.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.10"
+    "fabricloader": ">=0.16.10",
+    "minecraft": ">=1.21.5",
+    "yet_another_config_lib_v3": ">=3.6.6"
+  },
+  "suggests": {
+    "modmenu": ">=14.0.0"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.website": "https://capes.me",
+        "modmenu.discord": "https://capes.me/discord"
+      }
+    },
+    "mc-publish": {
+      "dependencies": [
+        "yacl"
+      ],
+      "loaders": [
+        "fabric"
+      ]
+    }
   }
 }

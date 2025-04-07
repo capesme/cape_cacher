@@ -2,79 +2,144 @@ package com.github.voxxin.cape_cacher.mixin;
 
 import com.github.voxxin.cape_cacher.client.CapeCacher;
 import com.github.voxxin.cape_cacher.client.StaticValues;
-import com.github.voxxin.cape_cacher.config.ModConfig;
-import com.github.voxxin.cape_cacher.config.model.CapeSettingsB;
-import com.github.voxxin.cape_cacher.config.model.CapesObject;
-import com.github.voxxin.cape_cacher.config.model.ModSettingsModel;
+import com.github.voxxin.cape_cacher.config.Manager;
 import com.github.voxxin.cape_cacher.task.IdentifyCapeType;
 import com.github.voxxin.cape_cacher.task.PingSite;
 import com.github.voxxin.cape_cacher.task.SendUserMessage;
-import com.github.voxxin.cape_cacher.task.util.UserObject;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
-import net.minecraft.util.Identifier;
+import com.mojang.authlib.minecraft.MinecraftProfileTextures;
+import com.mojang.authlib.yggdrasil.ProfileResult;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.client.resources.SkinManager;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.net.URI;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-
-@Mixin(PlayerListEntry.class)
+@Mixin(SkinManager.class)
 public abstract class PlayerSkinProviderMixin {
-    @Shadow public abstract GameProfile getProfile();
+    @Unique
+    private static final ExecutorService ASYNC_EXECUTOR = Executors.newFixedThreadPool(2);
 
-    @Inject(at = @At("HEAD"), method = "method_2956")
-    private void loadSkin(MinecraftProfileTexture.Type type, Identifier id, MinecraftProfileTexture texture, CallbackInfo ci) {
-        MinecraftProfileTexture.Type CAPE = MinecraftProfileTexture.Type.CAPE;
-        String textureURL = texture.getUrl();
-
-        if (!type.equals(CAPE)) return;
-        if (MinecraftClient.getInstance().player == null) return;
-
-        final String playerUUID = getProfile().getId().toString();
-        if (playerUUID.endsWith("0000-000000000000")) return;
-
-        final String playerName = getProfile().getName();
-        CapesObject capeInfo = IdentifyCapeType.CapeIdentifier(textureURL);
-        PingSite.pingCapesmeAsync(playerUUID)
-                .exceptionally(e -> {
-                    CapeCacher.LOGGER.error("Request failed: " + e.getMessage());
-                    return null;
-                });
-
-        UserObject thisUserObject = new UserObject(playerUUID, textureURL);
-        if (StaticValues.userCapeMap.contains(thisUserObject)) return;
-
-        StaticValues.userCapeMap.add(thisUserObject);
-
-        assert MinecraftClient.getInstance().player != null;
-        if (capeInfo.type.equals("unknown")) PingSite.pingFoundNewAsync(playerUUID, textureURL.replace("http://textures.minecraft.net/texture/", ""));
-
-        if (playerUUID.equals(MinecraftClient.getInstance().player.getUuid().toString()) && !Boolean.parseBoolean(ModSettingsModel.NOTIFY_WHEN_SELF.value)) return;
-
-        if (!capeInfo.getSettingB(CapeSettingsB.CapeSettingsBTemplate.NOTIFY.key).value) return;
-        if (capeInfo.getSettingB(CapeSettingsB.CapeSettingsBTemplate.NOTIFY_IN_CONSOLE.key).value) {
-            CapeCacher.LOGGER.info("Found cape for " + playerName + " (" + playerUUID + ")" + " : " + capeInfo.title);
+    @Inject(at = @At("TAIL"), method = "registerTextures")
+    private void loadSkin(UUID uuid, MinecraftProfileTextures textures, CallbackInfoReturnable<CompletableFuture<PlayerSkin>> cir) {
+        if (textures.cape() == null || textures.cape().getUrl() == null) {
+            return;
         }
 
+        CompletableFuture.supplyAsync(() -> {
+            try {
+                ProfileResult profileResult = Minecraft.getInstance().getMinecraftSessionService().fetchProfile(uuid, true);
+                return profileResult != null ? profileResult.profile() : null;
+            } catch (Exception e) {
+                CapeCacher.LOGGER.error("Failed to fetch profile for {}", uuid, e);
+                return null;
+            }
+        }, ASYNC_EXECUTOR).thenComposeAsync(profile -> {
+            if (profile == null) return CompletableFuture.completedFuture(null);
 
-        Text foundCape = Text.literal(" ")
-                .append(capeInfo.title).fillStyle(
-                        Style.EMPTY.withColor(TextColor.fromRgb(capeInfo.colour))
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, capeInfo.URL)));
+            final String textureUrl = textures.cape().getUrl();
+            final String userIdString = profile.getId().toString();
 
-        SendUserMessage.sendMessage(playerName, foundCape);
+            AtomicBoolean wasUpdated = new AtomicBoolean(false);
+            StaticValues.userCapeMap.compute(userIdString, (k, v) -> {
+                if (v == null || !v.equals(textureUrl)) {
+                    wasUpdated.set(true);
+                    return textureUrl;
+                }
+                return v;
+            });
+            boolean shouldUpdate = wasUpdated.get();
+
+            if (!shouldUpdate) return CompletableFuture.completedFuture(null);
+
+            return CompletableFuture.supplyAsync(() -> IdentifyCapeType.CapeIdentifier(textureUrl), ASYNC_EXECUTOR)
+                    .thenComposeAsync(capeInfo -> {
+                        JsonObject base = capeInfo.getAsJsonObject("base");
+
+                        return PingSite.pingCapesmeAsync(userIdString)
+                                .exceptionally(e -> {
+                                    CapeCacher.LOGGER.error("Ping failed for {}: {}", userIdString, e.getMessage());
+                                    return null;
+                                })
+                                .thenApplyAsync(v -> {
+                                    handleCapeNotifications(profile, capeInfo, base);
+                                    return null;
+                                }, ASYNC_EXECUTOR);
+                    });
+        }, ASYNC_EXECUTOR).handleAsync((result, ex) -> {
+            if (ex != null) {
+                CapeCacher.LOGGER.error("Async cape processing failed", ex);
+            }
+            return result;
+        }, ASYNC_EXECUTOR);
+    }
+
+    @Unique
+    private void handleCapeNotifications(GameProfile profile, JsonObject capeInfo, JsonObject base) {
+        if (isSelfProfile(profile)) return;
+
+        if (shouldSkipNotification(capeInfo)) return;
+
+        logCapeDiscovery(profile, base);
+
+        Minecraft.getInstance().execute(() -> {
+            Component foundCape = createCapeComponent(capeInfo, base);
+            SendUserMessage.sendMessage(profile.getName(), foundCape);
+        });
+    }
+
+    @Unique
+    private boolean isSelfProfile(GameProfile profile) {
+        return profile.getId().toString().equals(
+                Minecraft.getInstance().player != null ?
+                        Minecraft.getInstance().player.getUUID().toString() :
+                        ""
+        ) && Manager.HANDLER.instance().notifyWhenSelf;
+    }
+
+    @Unique
+    private boolean shouldSkipNotification(JsonObject capeInfo) {
+        JsonElement notifyFound = capeInfo.get("notify_when_found");
+        return notifyFound != null &&
+                notifyFound.isJsonPrimitive() &&
+                !notifyFound.getAsBoolean();
+    }
+
+    @Unique
+    private void logCapeDiscovery(GameProfile profile, JsonObject base) {
+        if (Manager.HANDLER.instance().notifyInConsole) {
+            CapeCacher.LOGGER.info("Discovered cape for {} ({}): {}",
+                    profile.getName(),
+                    profile.getId(),
+                    base.get("title").getAsString()
+            );
+        }
+    }
+
+    @Unique
+    private Component createCapeComponent(JsonObject capeInfo, JsonObject base) {
+        return Component.literal("")
+                .append(base.get("title").getAsString())
+                .withStyle(Style.EMPTY
+                        .withColor(TextColor.fromRgb(capeInfo.get("colour").getAsInt()))
+                        .withClickEvent(new ClickEvent.OpenUrl(
+                                URI.create(base.get("url").getAsString()))
+                        ));
     }
 }
-
-
