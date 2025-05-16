@@ -2,6 +2,7 @@ package com.github.voxxin.cape_cacher.config;
 
 import com.github.voxxin.cape_cacher.client.CapeCacher;
 import com.github.voxxin.cape_cacher.task.util.CustomJsonReader;
+import com.github.voxxin.cape_cacher.task.util.ResourceLocationHandler;
 import com.google.gson.JsonObject;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
@@ -11,15 +12,13 @@ import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class Manager {
-
     public static final ConfigClassHandler<Manager> HANDLER = ConfigClassHandler.createBuilder(Manager.class)
-            .id(ResourceLocation.fromNamespaceAndPath(CapeCacher.MODID, "config"))
+            .id(ResourceLocationHandler.make(CapeCacher.MODID, "config"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
                     .setPath(FabricLoader.getInstance().getConfigDir().resolve("cape_cacher.json5"))
                     .setJson5(true)
@@ -30,6 +29,7 @@ public class Manager {
         HANDLER.load();
     }
 
+    @SerialEntry public boolean minimizedMessage = false;
     @SerialEntry public boolean notifyWhenAny = true;
     @SerialEntry public boolean notifyInConsole = false;
     @SerialEntry public boolean notifyWhenSelf = false;
@@ -44,6 +44,12 @@ public class Manager {
 
         ConfigCategory generalCategory = ConfigCategory.createBuilder()
                 .name(Component.translatable("config.cape_cacher.category.general"))
+                .option(createBooleanOption(
+                        "config.cape_cacher.general.minimized_message",
+                        false,
+                        () -> minimizedMessage,
+                        val -> minimizedMessage = val
+                ))
                 .option(createBooleanOption(
                         "config.cape_cacher.general.notify_when_any",
                         true,

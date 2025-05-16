@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "cape_cacher",
-  "version": "${version}",
+  "version": "${mod_version}",
   "name": "Cape Cacher",
   "description": "Caches and lets you know of all capes in your loaded chunks!",
   "authors": [
@@ -14,7 +14,7 @@
     "issues": "https://github.com/capesme/cape_cacher/issues"
   },
   "license": "MIT",
-  "icon": "assets/cape_cacher/icon.png",
+  "icon": "assets/cape_cacher/icon2.png",
   "environment": "client",
   "entrypoints": {
     "main": [
@@ -28,12 +28,12 @@
     "cape_cacher.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16.10",
-    "minecraft": ">=1.21.5",
-    "yet_another_config_lib_v3": ">=3.6.6"
+    "minecraft": "${target_minecraft}",
+    "fabricloader": ">=${loader_version}",
+    "yet_another_config_lib_v3": ">=${target_yacl}"
   },
   "suggests": {
-    "modmenu": ">=14.0.0"
+    "modmenu": "*"
   },
   "custom": {
     "modmenu": {

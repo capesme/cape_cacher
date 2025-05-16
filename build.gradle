@@ -1,72 +1,59 @@
 plugins {
     id 'fabric-loom' version '1.10-SNAPSHOT'
     id 'maven-publish'
-    id 'com.github.johnrengelman.shadow' version '7.0.0'
+    id "dev.kikugie.stonecutter" version "0.7-alpha.14"
 }
+version =  property("mod.version") + "+" + stonecutter.current.version
+group = property("mod.group")
 
-version = project.mod_version
-group = project.maven_group
+base {
+    archivesName = property("mod.id")
+}
 
 repositories {
     maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
     maven { url = "https://maven.isxander.dev/releases" }
-    maven { url = "https://maven.terraformersmc.com/"}
+    maven { url = "https://maven.terraformersmc.com/" }
 }
 
-dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-    //google json reader
-    implementation 'com.google.code.gson:gson:2.8.9'
-
-    modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
-
-    modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
-    modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
-}
-
-    processResources {
-    inputs.property "version", project.version
-    filteringCharset "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
+if (stonecutter.current.active) { // run configs for non-active version would be invalid
+    loom {
+        runConfigs.all {
+            ideConfigGenerated = true // generate IDE tasks for running client, server and testmod, datagen if those are present
+            runDir "../../run" // use a global run directory for all versions
+        }
     }
 }
 
-def targetJavaVersion = 21
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        it.options.release = targetJavaVersion
+dependencies {
+    minecraft "com.mojang:minecraft:${stonecutter.current.version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${property('deps.loader')}"
+    implementation 'com.google.code.gson:gson:2.8.9'
+    modRuntimeOnly "me.djtheredstoner:DevAuth-fabric:1.1.2"
+    modImplementation "dev.isxander:yet-another-config-lib:${property('deps.yacl')}-fabric"
+    modImplementation "com.terraformersmc:modmenu:${property('deps.modmenu')}"
+}
+
+
+processResources {
+    filesMatching('fabric.mod.json') {
+        expand 'mod_version': version,
+                'target_minecraft': project.property('mod.target'),
+                'target_yacl': project.property('deps.yacl'),
+                'loader_version': project.property('deps.loader')
     }
 }
 
 java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
-    archivesBaseName = project.archives_base_name
-    withSourcesJar()
+    var version = stonecutter.eval(stonecutter.current.version, ">1.20.4") ? JavaVersion.VERSION_21 : JavaVersion.VERSION_17
+
+    sourceCompatibility = version
+    targetCompatibility = version
 }
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
-    }
-}
-
-// configure the maven publication
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
-
-    repositories {
+        rename { "${it}_${project.base.archivesName.get()}"}
     }
 }

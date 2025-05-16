@@ -2,10 +2,12 @@ package com.github.voxxin.cape_cacher.task;
 
 import com.github.voxxin.cape_cacher.client.CapeCacher;
 import com.github.voxxin.cape_cacher.client.StaticValues;
+import com.github.voxxin.cape_cacher.task.util.ResourceLocationHandler;
 import com.google.gson.*;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -184,10 +186,17 @@ public class PingSite {
 
     public static void registerTexture(String type, NativeImage image) {
         Minecraft.getInstance().execute(() -> {
-            ResourceLocation location = ResourceLocation.fromNamespaceAndPath(MODID, type.toLowerCase());
+            ResourceLocation location = ResourceLocationHandler.make(MODID, type.toLowerCase());
 
             try {
-                DynamicTexture texture = new DynamicTexture(location::toString, image);
+                DynamicTexture texture = null;
+
+                //? if >=1.21.5 {
+                /*texture = new DynamicTexture(location::toString, image);
+                *///?} else if >=1.20 {
+                texture = new DynamicTexture(image);
+                //?}
+
                 Minecraft.getInstance().getTextureManager().register(location, texture);
             } catch (Exception e) {
                 LOGGER.error("Failed to register texture {}", location, e);

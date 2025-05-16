@@ -77,7 +77,7 @@ public class CustomJsonReader {
         return capes;
     }
 
-    private static void refreshExistingCapes() {
+    public static void refreshExistingCapes() {
         JsonObject currentCapes = Manager.HANDLER.instance().capesJsonObject;
 
         for (var capeElement : capesJsonArray) {
@@ -95,7 +95,7 @@ public class CustomJsonReader {
 
     private static OptionDescription.Builder createTooltipImage(JsonObject capeJson) {
         String capeType = capeJson.get("type").getAsString().toLowerCase();
-        ResourceLocation imagePath = ResourceLocation.fromNamespaceAndPath(CapeCacher.MODID, capeType);
+        ResourceLocation imagePath = ResourceLocationHandler.make(CapeCacher.MODID, "config");
         return OptionDescription.createBuilder()
                 .image(imagePath, 256, 256);
     }
